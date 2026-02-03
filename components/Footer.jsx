@@ -2,7 +2,7 @@ import Link from 'next/link'
 
 const resourcesLinks = [
   { href: '/tips', label: 'Resume Tips' },
-  { href: '/how-to-write-resume', label: 'How to Write a Resume' },
+  { href: '/how-to-write-resume', label: 'How to Build a Resume' },
   { href: '/ats-resume-tips', label: 'ATS Resume Tips' },
   { href: '/faq', label: 'FAQ' },
   { href: '/about', label: 'About' },

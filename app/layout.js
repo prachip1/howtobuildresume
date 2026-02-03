@@ -13,12 +13,15 @@ const siteUrl =
 export const metadata = {
   metadataBase: new URL(siteUrl),
   title: {
-    default: 'howtobuildresume - Build Your First Resume Free | ATS-Optimized',
+    default: 'How to Build a Resume Free | howtobuildresume - ATS-Optimized Resume Builder',
     template: '%s | howtobuildresume',
   },
   description:
-    'Create your first resume in minutes. Free ATS-optimized resume builder. Upload existing resume, paste LinkedIn, or start from scratch. Get hired faster.',
+    'Learn how to build a resume in minutes. Free ATS-optimized resume builder—upload your resume, paste LinkedIn, or start from scratch. Get hired faster.',
   keywords: [
+    'how to build a resume',
+    'how to build resume',
+    'build a resume',
     'resume builder',
     'free resume maker',
     'ATS resume',
@@ -37,15 +40,15 @@ export const metadata = {
     locale: 'en_US',
     url: siteUrl,
     siteName: 'howtobuildresume',
-    title: 'howtobuildresume - Build Your First Resume Free | ATS-Optimized',
+    title: 'How to Build a Resume Free | howtobuildresume - ATS Resume Builder',
     description:
-      'Create your first resume in minutes. Free ATS-optimized resume builder. Upload, paste LinkedIn, or start blank.',
-    images: [{ url: '/og-image.png', width: 1200, height: 630, alt: 'howtobuildresume - Build Your First Resume' }],
+      'Learn how to build a resume in minutes. Free ATS-optimized resume builder. Upload, paste LinkedIn, or start blank.',
+    images: [{ url: '/og-image.png', width: 1200, height: 630, alt: 'howtobuildresume - How to Build a Resume' }],
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'howtobuildresume - Build Your First Resume Free',
-    description: 'Create a professional, ATS-optimized resume in minutes. Free.',
+    title: 'How to Build a Resume Free | howtobuildresume',
+    description: 'Learn how to build a resume in minutes. Free ATS-optimized resume builder.',
   },
   robots: {
     index: true,

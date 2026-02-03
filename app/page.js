@@ -10,12 +10,12 @@ const siteUrl =
 const jsonLd = {
   '@context': 'https://schema.org',
   '@type': 'WebApplication',
-  name: 'howtobuildresume',
-  description: 'Free ATS-optimized resume builder. Create your first resume in minutes. Upload, paste LinkedIn, or start blank.',
+  name: 'howtobuildresume - How to Build a Resume',
+  description: 'Learn how to build a resume in minutes. Free ATS-optimized resume builder. Upload your resume, paste LinkedIn, or start from scratch.',
   url: siteUrl,
   applicationCategory: 'BusinessApplication',
   offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
-  featureList: ['Upload resume', 'Paste LinkedIn', 'Start blank', 'ATS-optimized', 'PDF export'],
+  featureList: ['How to build a resume', 'Upload resume', 'Paste LinkedIn', 'Start blank', 'ATS-optimized', 'PDF export'],
 }
 
 export default function Home() {
@@ -28,15 +28,15 @@ export default function Home() {
       {/* Main content area - same bg as outer so no black peeking at rounded corners */}
       <div className="bg-[#f0f0f0] rounded-t-3xl min-h-[calc(100vh-4rem)] pt-12 pb-24 px-4 sm:px-6 lg:px-8">
         <div className="max-w-6xl mx-auto">
-          {/* Hero Section */}
+          {/* Hero Section - targets "how to build resume" search */}
           <div className="text-center mb-16">
             <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-black mb-6 leading-tight">
-              Build Your first resume
+              How to Build a Resume
               <br />
               <span className="text-gray-700 font-normal">without hassle.</span>
             </h1>
             <p className="text-lg text-gray-600 max-w-2xl mx-auto mb-8">
-              Create a professional, ATS-optimized resume in minutes.
+              Learn how to build a resume in minutes. Free ATS-optimized resume builder—upload your file, paste LinkedIn, or start from scratch.
             </p>
             {/* CTA - Email + Register like reference */}
             <div className="flex flex-col sm:flex-row gap-3 justify-center items-center max-w-md mx-auto">

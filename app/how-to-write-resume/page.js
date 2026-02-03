@@ -2,12 +2,12 @@ import Link from 'next/link'
 import { ArrowRight } from 'lucide-react'
 
 export const metadata = {
-  title: 'How to Write a Resume - Step-by-Step Guide for 2025',
+  title: 'How to Build a Resume - Step-by-Step Guide for 2025',
   description:
-    'Learn how to write a resume from scratch: sections, formatting, ATS optimization, and examples. Free guide + resume builder to create your first resume.',
+    'Learn how to build a resume from scratch: sections, formatting, ATS optimization, and examples. Free guide + resume builder. How to build a resume that gets hired.',
   openGraph: {
-    title: 'How to Write a Resume | howtobuildresume',
-    description: 'Step-by-step guide to writing a professional resume. Free resume builder included.',
+    title: 'How to Build a Resume | howtobuildresume',
+    description: 'Step-by-step guide: how to build a resume. Free resume builder included.',
   },
 }
 
@@ -28,10 +28,10 @@ export default function HowToWriteResumePage() {
         <article className="max-w-3xl mx-auto">
           <header className="mb-12">
             <h1 className="text-3xl sm:text-4xl font-bold text-black mb-4">
-              How to Write a Resume
+              How to Build a Resume
             </h1>
             <p className="text-lg text-gray-600">
-              A step-by-step guide to writing a professional resume that gets past ATS and into a recruiter&apos;s hands. Use our free resume builder to put it all together.
+              A step-by-step guide to building a professional resume that gets past ATS and into a recruiter&apos;s hands. Learn how to build a resume with our free resume builder.
             </p>
           </header>
 

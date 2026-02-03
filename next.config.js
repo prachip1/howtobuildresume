@@ -5,6 +5,15 @@ const nextConfig = {
       bodySizeLimit: '10mb',
     },
   },
+  async redirects() {
+    return [
+      {
+        source: '/how-to-build-resume',
+        destination: '/how-to-write-resume',
+        permanent: true,
+      },
+    ]
+  },
 }
 
 module.exports = nextConfig
