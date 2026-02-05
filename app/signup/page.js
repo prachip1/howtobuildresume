@@ -2,9 +2,9 @@
 
 export const dynamic = 'force-dynamic'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import Link from 'next/link'
-import { useRouter, useSearchParams } from 'next/navigation'
+import { useRouter } from 'next/navigation'
 import { UserPlus, ArrowLeft } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
@@ -13,7 +13,6 @@ import { createClient } from '@/lib/supabase/client'
 
 export default function SignupPage() {
   const router = useRouter()
-  const searchParams = useSearchParams()
   const supabase = createClient()
 
   const [email, setEmail] = useState('')
@@ -21,8 +20,16 @@ export default function SignupPage() {
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState('')
   const [info, setInfo] = useState('')
+  const [redirectTo, setRedirectTo] = useState('/resume/edit')
 
-  const redirectTo = searchParams.get('redirect') || '/resume/edit'
+  useEffect(() => {
+    if (typeof window === 'undefined') return
+    const params = new URLSearchParams(window.location.search)
+    const redirect = params.get('redirect')
+    if (redirect) {
+      setRedirectTo(redirect)
+    }
+  }, [])
 
   const handleSubmit = async (e) => {
     e.preventDefault()
