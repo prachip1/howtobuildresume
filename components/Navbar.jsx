@@ -1,8 +1,10 @@
 'use client'
 
+import { useState, useEffect } from 'react'
 import Link from 'next/link'
-import { usePathname } from 'next/navigation'
-import { FileText, Upload, Linkedin, Home } from 'lucide-react'
+import { usePathname, useRouter } from 'next/navigation'
+import { FileText, Upload, Linkedin, Home, LayoutDashboard, LogOut } from 'lucide-react'
+import { createClient } from '@/lib/supabase/client'
 
 const navLinks = [
   { href: '/', label: 'Home', icon: Home },
@@ -13,6 +15,27 @@ const navLinks = [
 
 export default function Navbar() {
   const pathname = usePathname()
+  const router = useRouter()
+  const [user, setUser] = useState(null)
+  const [authLoading, setAuthLoading] = useState(true)
+  const supabase = createClient()
+
+  useEffect(() => {
+    supabase.auth.getUser().then(({ data: { user: u } }) => {
+      setUser(u)
+      setAuthLoading(false)
+    })
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
+      setUser(session?.user ?? null)
+    })
+    return () => subscription?.unsubscribe()
+  }, [supabase.auth])
+
+  const handleLogout = async () => {
+    await supabase.auth.signOut()
+    router.push('/')
+    router.refresh()
+  }
 
   return (
     <header className="bg-white">
@@ -41,17 +64,43 @@ export default function Navbar() {
             ))}
           </nav>
 
-          {/* Right Side */}
+          {/* Right Side - auth aware */}
           <div className="flex items-center gap-4">
-            <Link href="/signin" className="hidden sm:inline text-sm font-medium text-gray-600 hover:text-gray-900">
-              Login
-            </Link>
-            <Link
-              href="/signup"
-              className="inline-flex items-center px-4 py-2 rounded-xl bg-ref-green hover:bg-ref-green-dark text-black font-medium text-sm transition-colors border-2 border-black shadow-key hover:shadow-key-md active:shadow-key-sm"
-            >
-              Get Started — It&apos;s Free
-            </Link>
+            {authLoading ? (
+              <span className="text-sm text-gray-400">...</span>
+            ) : user ? (
+              <>
+                <Link
+                  href="/dashboard"
+                  className={`hidden sm:inline-flex items-center gap-1.5 text-sm font-medium px-3 py-1.5 rounded transition-colors ${
+                    pathname === '/dashboard' ? 'text-ref-green' : 'text-gray-600 hover:text-gray-900'
+                  }`}
+                >
+                  <LayoutDashboard className="w-4 h-4" />
+                  Dashboard
+                </Link>
+                <button
+                  type="button"
+                  onClick={handleLogout}
+                  className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-white text-black hover:bg-gray-100 font-medium text-sm border-2 border-black shadow-key hover:shadow-key-md active:shadow-key-sm transition-colors"
+                >
+                  <LogOut className="w-4 h-4" />
+                  Logout
+                </button>
+              </>
+            ) : (
+              <>
+                <Link href="/signin" className="hidden sm:inline text-sm font-medium text-gray-600 hover:text-gray-900">
+                  Login
+                </Link>
+                <Link
+                  href="/signup"
+                  className="inline-flex items-center px-4 py-2 rounded-xl bg-ref-green hover:bg-ref-green-dark text-black font-medium text-sm transition-colors border-2 border-black shadow-key hover:shadow-key-md active:shadow-key-sm"
+                >
+                  Get Started — It&apos;s Free
+                </Link>
+              </>
+            )}
           </div>
         </div>
 
@@ -67,6 +116,23 @@ export default function Navbar() {
                 {label}
               </Link>
             ))}
+            {user && (
+              <>
+                <Link
+                  href="/dashboard"
+                  className={`px-3 py-1.5 rounded text-sm ${pathname === '/dashboard' ? 'bg-ref-green/10 text-ref-green' : 'text-gray-600'}`}
+                >
+                  Dashboard
+                </Link>
+                <button
+                  type="button"
+                  onClick={handleLogout}
+                  className="px-3 py-1.5 rounded text-sm text-gray-600 hover:bg-gray-100"
+                >
+                  Logout
+                </button>
+              </>
+            )}
           </div>
         </div>
       </div>

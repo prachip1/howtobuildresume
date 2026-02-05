@@ -175,6 +175,11 @@ CREATE INDEX idx_projects_resume_id ON projects(resume_id);
 CREATE INDEX idx_certifications_resume_id ON certifications(resume_id);
 ```
 
+### Where signups are stored
+
+- **Supabase Auth** – Every signup is stored in **Authentication > Users** in the Supabase dashboard. That is the source of truth for who signed up.
+- **Optional: `profiles` table** – To also see signups in the Table Editor, run the script `supabase-profiles.sql` in the Supabase SQL Editor. It creates a `profiles` table and a trigger so each new auth user gets a row in `profiles` (id, email, created_at). Run it once; after that, every new signup will create a row in `profiles`.
+
 ## Project Structure
 
 ```

@@ -19,7 +19,7 @@ export default function SignupPage() {
   const [password, setPassword] = useState('')
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState('')
-  const [info, setInfo] = useState('')
+  const [successMessage, setSuccessMessage] = useState('')
   const [redirectTo, setRedirectTo] = useState('/resume/edit')
 
   useEffect(() => {
@@ -34,7 +34,7 @@ export default function SignupPage() {
   const handleSubmit = async (e) => {
     e.preventDefault()
     setError('')
-    setInfo('')
+    setSuccessMessage('')
 
     if (!email || !password) {
       setError('Please enter email and password.')
@@ -50,15 +50,26 @@ export default function SignupPage() {
 
       if (signUpError) {
         setError(signUpError.message || 'Failed to sign up. Please try again.')
+        setIsLoading(false)
         return
       }
 
-      // If email confirmation is enabled, there may be no active session yet.
-      if (data?.session || data?.user) {
-        router.push(redirectTo)
-      } else {
-        setInfo('Check your email to confirm your account, then sign in to continue.')
+      // Only redirect if we have an active session (email confirmation disabled).
+      // If confirmation is required, data.session is null and we show a clear message.
+      if (data?.session) {
+        setSuccessMessage('Account created! Redirecting...')
+        router.replace(redirectTo)
+        // Fallback: force navigation in case client router doesn't
+        setTimeout(() => {
+          window.location.href = redirectTo
+        }, 500)
+        return
       }
+
+      // Email confirmation required: user exists but no session yet
+      setSuccessMessage(
+        'Account created! Check your email for a confirmation link, then sign in to continue.'
+      )
     } catch (err) {
       console.error('Signup error:', err)
       setError('Something went wrong. Please try again.')
@@ -118,8 +129,24 @@ export default function SignupPage() {
                     required
                   />
                 </div>
-                {error && <p className="text-sm text-red-600">{error}</p>}
-                {info && <p className="text-sm text-gray-600">{info}</p>}
+                {error && (
+                  <div className="rounded-lg bg-red-50 border border-red-200 px-3 py-2 text-sm text-red-700">
+                    {error}
+                  </div>
+                )}
+                {successMessage && (
+                  <div className="rounded-lg bg-green-50 border border-green-200 px-3 py-3 text-sm text-green-800 space-y-2">
+                    <p>{successMessage}</p>
+                    {successMessage.includes('Check your email') && (
+                      <Link
+                        href={`/signin${redirectTo !== '/resume/edit' ? `?redirect=${encodeURIComponent(redirectTo)}` : ''}`}
+                        className="inline-block font-medium text-green-700 hover:underline"
+                      >
+                        Go to sign in →
+                      </Link>
+                    )}
+                  </div>
+                )}
                 <Button
                   className="w-full justify-center"
                   size="lg"

@@ -20,8 +20,15 @@ export default function EditResumePage() {
   const FREE_RESUME_LIMIT = 10
 
   useEffect(() => {
-    // Load resume data from session
     const storedData = sessionStorage.getItem('resumeData')
+    const storedResumeId = sessionStorage.getItem('resumeId')
+
+    // Opening from dashboard: only resumeId, no session data — load from DB
+    if (storedResumeId && !storedData) {
+      loadResumeFromDB(storedResumeId)
+      return
+    }
+
     if (!storedData) {
       router.push('/')
       return
@@ -29,22 +36,89 @@ export default function EditResumePage() {
 
     const data = JSON.parse(storedData)
     setResumeData(data)
-    
-    // Try to load from database if resumeId exists
-    const storedResumeId = sessionStorage.getItem('resumeId')
-    if (storedResumeId) {
-      setResumeId(storedResumeId)
-      loadResumeFromDB(storedResumeId)
-    }
+    if (storedResumeId) setResumeId(storedResumeId)
   }, [])
 
   const loadResumeFromDB = async (id) => {
     try {
-      // Load resume data from Supabase
-      // This would fetch all related tables
-      // For now, we'll use session storage
+      const [
+        { data: resumeRow, error: resumeErr },
+        { data: personalRows, error: personalErr },
+        { data: workRows, error: workErr },
+        { data: educationRows, error: educationErr },
+        { data: skillRows, error: skillErr },
+        { data: projectRows, error: projectErr },
+      ] = await Promise.all([
+        supabase.from('resumes').select('id, name').eq('id', id).single(),
+        supabase.from('personal_info').select('*').eq('resume_id', id).maybeSingle(),
+        supabase.from('work_experience').select('*').eq('resume_id', id).order('created_at', { ascending: true }),
+        supabase.from('education').select('*').eq('resume_id', id).order('created_at', { ascending: true }),
+        supabase.from('skills').select('name').eq('resume_id', id).order('created_at', { ascending: true }),
+        supabase.from('projects').select('*').eq('resume_id', id).order('created_at', { ascending: true }),
+      ])
+
+      if (resumeErr || !resumeRow) {
+        console.error('Resume not found:', resumeErr)
+        router.push('/dashboard')
+        return
+      }
+
+      const personal = personalRows || {}
+      const personalInfo = {
+        name: personal.name,
+        email: personal.email,
+        phone: personal.phone,
+        location: personal.location,
+        linkedin: personal.linkedin,
+        github: personal.github,
+        portfolio: personal.portfolio,
+      }
+
+      const workExperience = (workRows || []).map((row) => ({
+        role: row.role,
+        company: row.company,
+        startDate: row.start_date,
+        endDate: row.end_date,
+        location: row.location,
+        description: row.description,
+        achievements: Array.isArray(row.achievements) ? row.achievements : [],
+      }))
+
+      const education = (educationRows || []).map((row) => ({
+        institution: row.institution,
+        degree: row.degree,
+        field: row.field,
+        startDate: row.start_date,
+        endDate: row.end_date,
+        gpa: row.gpa,
+        honors: row.honors,
+      }))
+
+      const skills = (skillRows || []).map((s) => s.name)
+
+      const projects = (projectRows || []).map((row) => ({
+        name: row.name,
+        description: row.description,
+        tech_stack: Array.isArray(row.tech_stack) ? row.tech_stack : [],
+        link: row.link,
+        date: row.date,
+      }))
+
+      const summary = personal.summary ?? resumeRow.summary ?? ''
+
+      setResumeId(resumeRow.id)
+      setResumeData({
+        personalInfo,
+        summary,
+        workExperience,
+        education,
+        skills,
+        projects,
+        certifications: [],
+      })
     } catch (error) {
       console.error('Error loading resume:', error)
+      router.push('/dashboard')
     }
   }
 
@@ -129,7 +203,13 @@ export default function EditResumePage() {
 
         const workExp = resumeData.workExperience.map(exp => ({
           resume_id: savedResumeId,
-          ...exp,
+          role: exp.role,
+          company: exp.company,
+          start_date: exp.startDate,
+          end_date: exp.endDate,
+          location: exp.location,
+          description: exp.description,
+          achievements: exp.achievements || [],
         }))
 
         if (workExp.length > 0) {
@@ -148,7 +228,13 @@ export default function EditResumePage() {
 
         const edu = resumeData.education.map(ed => ({
           resume_id: savedResumeId,
-          ...ed,
+          institution: ed.institution,
+          degree: ed.degree,
+          field: ed.field,
+          start_date: ed.startDate,
+          end_date: ed.endDate,
+          gpa: ed.gpa,
+          honors: ed.honors,
         }))
 
         if (edu.length > 0) {

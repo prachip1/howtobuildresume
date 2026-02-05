@@ -21,7 +21,8 @@
    - Go to your Supabase project dashboard
    - Navigate to SQL Editor
    - Run the SQL script from `README.md` (Database Setup section)
-   - This creates all necessary tables
+   - Run `supabase-profiles.sql` so signups create a row in the **profiles** table (optional but recommended)
+   - Signups are always stored in **Authentication → Users**; the profiles script also adds a row per user in Table Editor
 
 4. **Run the Development Server**
    ```bash
