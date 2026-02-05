@@ -20,7 +20,7 @@ export default function Navbar() {
         <div className="flex items-center justify-between h-16">
           {/* Logo - Left */}
           <Link href="/" className="flex items-center gap-2 text-gray-700 hover:text-gray-900 shrink-0">
-            <span className="text-2xl font-light">📃</span>
+            <img src="/howtobuildresume.png" alt="" className="h-8 w-8 object-contain" />
             <span className="font-semibold text-gray-800">howtobuildresume</span>
           </Link>
 

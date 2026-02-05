@@ -17,7 +17,7 @@ export default function Footer() {
           {/* Brand */}
           <div>
             <div className="flex items-center gap-2 text-gray-700">
-              <span className="text-xl font-light">📃</span>
+              <img src="/howtobuildresume.png" alt="" className="h-7 w-7 object-contain" />
               <span className="font-semibold text-gray-800">howtobuildresume</span>
             </div>
             <p className="mt-2 text-sm text-gray-500 max-w-xs">

@@ -71,7 +71,7 @@ export default function Home() {
               >
                 <div className="card-hover-grain" aria-hidden />
                 <div className="relative z-10 flex items-start gap-4">
-                  <div className="w-12 h-12 rounded-xl bg-white border-2 border-black flex items-center justify-center shrink-0 shadow-key-sm group-hover:bg-ref-green/10 transition-colors">
+                  <div className="w-12 h-12 rounded-xl bg-white border-2 border-black flex items-center justify-center shrink-0 shadow-key-sm">
                     <Upload className="w-6 h-6 text-black" />
                   </div>
                   <div>

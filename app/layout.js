@@ -57,6 +57,9 @@ export const metadata = {
     googleBot: { index: true, follow: true },
   },
   alternates: { canonical: siteUrl },
+  icons: {
+    icon: '/howtobuildresume.png',
+  },
   verification: {
     // Add your verification codes when you have them (Google Search Console, etc.)
     // google: 'your-google-verification-code',
