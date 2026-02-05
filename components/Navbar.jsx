@@ -43,7 +43,7 @@ export default function Navbar() {
 
           {/* Right Side */}
           <div className="flex items-center gap-4">
-            <Link href="/signup" className="hidden sm:inline text-sm font-medium text-gray-600 hover:text-gray-900">
+            <Link href="/signin" className="hidden sm:inline text-sm font-medium text-gray-600 hover:text-gray-900">
               Login
             </Link>
             <Link

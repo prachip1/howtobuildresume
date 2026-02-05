@@ -17,6 +17,7 @@ export default function EditResumePage() {
   const [resumeId, setResumeId] = useState(null)
   const router = useRouter()
   const supabase = createClient()
+  const FREE_RESUME_LIMIT = 10
 
   useEffect(() => {
     // Load resume data from session
@@ -50,25 +51,51 @@ export default function EditResumePage() {
   const handleSave = async () => {
     if (!resumeData) return
 
+    // Require authentication to save
+    const {
+      data: { user },
+    } = await supabase.auth.getUser()
+
+    if (!user) {
+      router.push(`/signup?redirect=${encodeURIComponent('/resume/edit')}`)
+      return
+    }
+
+    // Soft limit: only count new resumes in last 30 days
+    if (!resumeId) {
+      try {
+        const since = new Date()
+        since.setDate(since.getDate() - 30)
+
+        const { count, error: countError } = await supabase
+          .from('resumes')
+          .select('id', { count: 'exact', head: true })
+          .eq('user_id', user.id)
+          .gte('updated_at', since.toISOString())
+
+        if (countError) {
+          console.error('Error checking resume limit:', countError)
+        } else if ((count ?? 0) >= FREE_RESUME_LIMIT) {
+          alert(
+            `You have reached the free limit of ${FREE_RESUME_LIMIT} resumes in the last 30 days. ` +
+              'You can continue editing existing resumes or try again later.'
+          )
+          return
+        }
+      } catch (err) {
+        console.error('Error enforcing resume limit:', err)
+      }
+    }
+
     setIsSaving(true)
     try {
-      // Generate session token for anonymous users
-      let sessionToken = sessionStorage.getItem('sessionToken')
-      if (!sessionToken) {
-        sessionToken = `anon_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`
-        sessionStorage.setItem('sessionToken', sessionToken)
-      }
-
-      // Get current user (if logged in)
-      const { data: { user } } = await supabase.auth.getUser()
-
       // Save to Supabase
       const { data: resume, error } = await supabase
         .from('resumes')
         .upsert({
           id: resumeId,
-          user_id: user?.id || null,
-          session_token: !user ? sessionToken : null,
+          user_id: user.id,
+          session_token: null,
           name: resumeData.personalInfo?.name || 'My Resume',
           updated_at: new Date().toISOString(),
         })
@@ -161,6 +188,16 @@ export default function EditResumePage() {
 
   const handleExportPDF = async () => {
     if (!resumeData) return
+
+    // Require authentication to export
+    const {
+      data: { user },
+    } = await supabase.auth.getUser()
+
+    if (!user) {
+      router.push(`/signup?redirect=${encodeURIComponent('/resume/edit')}`)
+      return
+    }
 
     setIsExporting(true)
     try {
