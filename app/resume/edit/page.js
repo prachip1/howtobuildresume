@@ -212,7 +212,7 @@ export default function EditResumePage() {
 
   if (!resumeData) {
     return (
-      <div className="min-h-full flex items-center justify-center bg-ref-dark">
+      <div className="min-h-full flex items-center justify-center bg-[#f0f0f0]">
         <div className="bg-white rounded-2xl p-8 text-center">
           <div className="w-12 h-12 border-2 border-ref-green border-t-transparent rounded-full animate-spin mx-auto" />
           <p className="text-gray-600 mt-4">Loading resume...</p>
@@ -222,7 +222,7 @@ export default function EditResumePage() {
   }
 
   return (
-    <div className="min-h-full bg-ref-dark">
+    <div className="min-h-full bg-[#f0f0f0]">
       <div className="bg-white rounded-t-3xl min-h-[calc(100vh-4rem)] py-8 px-4">
         <div className="max-w-7xl mx-auto">
           <div className="mb-6 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
@@ -231,11 +231,11 @@ export default function EditResumePage() {
               <p className="text-gray-600 mt-1">Review and export your ATS-optimized resume</p>
             </div>
             <div className="flex gap-3">
-              <Button variant="outline" onClick={handleSave} disabled={isSaving}>
+              <Button variant="register" onClick={handleSave} disabled={isSaving}>
                 <Save className="mr-2 h-4 w-4" />
                 {isSaving ? 'Saving...' : 'Save'}
               </Button>
-              <Button onClick={handleExportPDF} disabled={isExporting}>
+              <Button variant="cta" onClick={handleExportPDF} disabled={isExporting}>
                 <Download className="mr-2 h-4 w-4" />
                 {isExporting ? 'Exporting...' : 'Export PDF'}
               </Button>

@@ -4,6 +4,7 @@ import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
 import { Upload as UploadIcon, FileText, Loader2, AlertCircle, ArrowLeft } from 'lucide-react'
+import { RiUploadCloud2Line } from 'react-icons/ri'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 
@@ -61,7 +62,7 @@ export default function UploadPage() {
   }
 
   return (
-    <div className="min-h-full bg-ref-dark">
+    <div className="min-h-full bg-[#f0f0f0]">
       <div className="bg-white rounded-t-3xl min-h-[calc(100vh-4rem)] py-12 px-4">
         <div className="max-w-2xl mx-auto">
           <Link
@@ -72,8 +73,8 @@ export default function UploadPage() {
             Back to home
           </Link>
           <div className="text-center mb-8">
-            <div className="w-16 h-16 bg-ref-yellow/20 rounded-full flex items-center justify-center mx-auto mb-4">
-              <UploadIcon className="w-8 h-8 text-ref-yellow" />
+            <div className="w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4 bg-white border-2 border-black shadow-key">
+              <RiUploadCloud2Line className="w-8 h-8 text-black" />
             </div>
             <h1 className="text-4xl font-bold text-black mb-2">
               Upload Your Resume
@@ -121,7 +122,7 @@ export default function UploadPage() {
                     </p>
                   </div>
                   <Button
-                    variant="ghost"
+                    variant="register"
                     size="sm"
                     onClick={() => setFile(null)}
                     disabled={isUploading}
@@ -138,21 +139,29 @@ export default function UploadPage() {
                 </div>
               )}
 
-              <Button
-                onClick={handleUpload}
-                disabled={!file || isUploading}
-                className="w-full"
-                size="lg"
-              >
-                {isUploading ? (
-                  <>
-                    <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                    Processing Resume...
-                  </>
-                ) : (
-                  'Process Resume'
-                )}
-              </Button>
+              <div className="flex flex-wrap items-center gap-3">
+                <Link
+                  href="/"
+                  className="inline-flex items-center justify-center h-10 px-4 py-2 rounded-xl bg-white text-black hover:bg-gray-100 font-semibold border-2 border-black shadow-key hover:shadow-key-md active:shadow-key-sm text-sm transition-all"
+                >
+                  Cancel
+                </Link>
+                <Button
+                  variant="cta"
+                  onClick={handleUpload}
+                  disabled={!file || isUploading}
+                  size="default"
+                >
+                  {isUploading ? (
+                    <>
+                      <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                      Processing...
+                    </>
+                  ) : (
+                    'Process Resume'
+                  )}
+                </Button>
+              </div>
             </CardContent>
           </Card>
 

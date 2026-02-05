@@ -10,15 +10,18 @@ const Button = React.forwardRef(
       secondary: "bg-secondary text-secondary-foreground hover:bg-secondary/80",
       ghost: "hover:bg-gray-100 hover:text-gray-900",
       link: "text-primary underline-offset-4 hover:underline",
-      // CTA style: match navbar \"Get Started — It's Free\" button
+      // Primary action: match navbar "Get Started — It's Free"
       cta:
-        "rounded-xl bg-ref-green hover:bg-ref-green-dark text-black border-2 border-black shadow-key hover:shadow-key-md active:shadow-key-sm",
+        "rounded-xl bg-ref-green hover:bg-ref-green-dark text-black font-medium border-2 border-black shadow-key hover:shadow-key-md active:shadow-key-sm",
+      // Secondary/cancel: match homepage "Register" button
+      register:
+        "rounded-xl bg-white text-black hover:bg-gray-100 font-semibold border-2 border-black shadow-key hover:shadow-key-md active:shadow-key-sm",
     }
 
     const sizes = {
       default: "h-10 px-4 py-2",
-      sm: "h-9 rounded-md px-3",
-      lg: "h-11 rounded-md px-8",
+      sm: "h-9 px-3",
+      lg: "h-11 px-8",
       icon: "h-10 w-10",
     }
 

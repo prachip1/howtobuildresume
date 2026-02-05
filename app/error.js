@@ -2,6 +2,7 @@
 
 import { useEffect } from 'react'
 import Link from 'next/link'
+import { Button } from '@/components/ui/button'
 
 export default function Error({ error, reset }) {
   useEffect(() => {
@@ -17,16 +18,12 @@ export default function Error({ error, reset }) {
             We ran into an error. You can try again or go back home.
           </p>
           <div className="flex flex-col sm:flex-row gap-3 justify-center">
-            <button
-              type="button"
-              onClick={() => reset()}
-              className="px-6 py-3 rounded-xl bg-ref-green text-black border-2 border-black shadow-key hover:shadow-key-md font-medium transition-all"
-            >
+            <Button variant="cta" onClick={() => reset()} className="px-6 py-3">
               Try again
-            </button>
+            </Button>
             <Link
               href="/"
-              className="px-6 py-3 rounded-xl bg-white text-black border-2 border-black shadow-key hover:shadow-key-md font-medium transition-all inline-block"
+              className="inline-flex items-center justify-center px-6 py-3 rounded-xl bg-white text-black hover:bg-gray-100 font-semibold border-2 border-black shadow-key hover:shadow-key-md active:shadow-key-sm transition-all"
             >
               Go home
             </Link>

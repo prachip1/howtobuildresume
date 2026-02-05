@@ -3,6 +3,7 @@
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
 import { FileText, ArrowRight, Hammer, ArrowLeft } from 'lucide-react'
+import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 
 export default function BlankPage() {
@@ -58,7 +59,7 @@ export default function BlankPage() {
             Back to home
           </Link>
           <div className="text-center mb-8">
-            <div className="w-16 h-16 bg-gray-200 rounded-full flex items-center justify-center mx-auto mb-4">
+            <div className="w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4 bg-white border-2 border-black shadow-key">
               <FileText className="w-8 h-8 text-black" />
             </div>
             <h1 className="text-4xl font-bold text-black mb-2">
@@ -101,15 +102,23 @@ export default function BlankPage() {
                 </p>
               </div>
 
-              <div className="flex justify-center">
-                <button
+              <div className="flex flex-wrap items-center justify-center gap-3">
+                <Link
+                  href="/"
+                  className="inline-flex items-center justify-center h-10 px-4 py-2 rounded-xl bg-white text-black hover:bg-gray-100 font-semibold border-2 border-black shadow-key hover:shadow-key-md active:shadow-key-sm text-sm transition-all"
+                >
+                  Cancel
+                </Link>
+                <Button
                   type="button"
+                  variant="cta"
+                  size="default"
                   onClick={handleStart}
-                  className="inline-flex items-center gap-2 px-6 py-2.5 rounded-xl bg-ref-green hover:bg-ref-green-dark text-black font-medium text-sm border-2 border-black shadow-key hover:shadow-key-md active:shadow-key-sm transition-all"
+                  className="inline-flex items-center gap-2"
                 >
                   Get Started
                   <ArrowRight className="w-4 h-4" />
-                </button>
+                </Button>
               </div>
             </CardContent>
           </Card>

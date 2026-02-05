@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import { ArrowRight, ArrowLeft, Lightbulb, CheckCircle2 } from 'lucide-react'
+import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Textarea } from '@/components/ui/textarea'
 import { QUESTION_FLOW, getNextQuestion, getProgress, updateResumeData, getHintForQuestion } from '@/lib/questions'
@@ -287,33 +288,35 @@ export default function QuestionsPage() {
 
             {/* Actions - inline, minimal */}
             <div className="flex flex-wrap items-center gap-3">
-              <button
+              <Button
                 type="button"
+                variant="register"
                 onClick={handlePrevious}
                 disabled={source === 'blank' && currentQuestionIndex === 0}
-                className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-white text-black hover:bg-gray-100 font-medium border-2 border-black shadow-key hover:shadow-key-md active:shadow-key-sm disabled:opacity-50 disabled:pointer-events-none transition-all text-sm"
+                className="inline-flex items-center gap-2"
               >
                 <ArrowLeft className="h-4 w-4" />
                 Back
-              </button>
+              </Button>
               {!currentQuestion.required && (
-                <button
+                <Button
                   type="button"
+                  variant="register"
                   onClick={handleSkip}
-                  className="inline-flex items-center px-5 py-2.5 rounded-xl text-gray-600 hover:text-black hover:bg-gray-100 font-medium transition-all text-sm"
                 >
                   Skip
-                </button>
+                </Button>
               )}
-              <button
+              <Button
                 type="button"
+                variant="cta"
                 onClick={handleNext}
                 disabled={currentQuestion.required && !answer.trim()}
-                className="inline-flex items-center gap-2 px-6 py-2.5 rounded-xl bg-white text-black hover:bg-gray-100 font-semibold border-2 border-black shadow-key hover:shadow-key-md active:shadow-key-sm disabled:opacity-50 disabled:pointer-events-none transition-all text-sm"
+                className="inline-flex items-center gap-2"
               >
                 Next
                 <ArrowRight className="h-4 w-4" />
-              </button>
+              </Button>
             </div>
           </div>
 

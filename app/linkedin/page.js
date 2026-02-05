@@ -3,7 +3,8 @@
 import { useState, useCallback } from 'react'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
-import { Linkedin, Loader2, AlertCircle, Sparkles, ArrowLeft } from 'lucide-react'
+import { Loader2, AlertCircle, ArrowLeft } from 'lucide-react'
+import { ImLinkedin2 } from 'react-icons/im'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Textarea } from '@/components/ui/textarea'
@@ -59,7 +60,7 @@ export default function LinkedInPage() {
   }
 
   return (
-    <div className="min-h-full bg-ref-dark">
+    <div className="min-h-full bg-[#f0f0f0]">
       <div className="bg-white rounded-t-3xl min-h-[calc(100vh-4rem)] py-12 px-4">
         <div className="max-w-3xl mx-auto">
           <Link
@@ -70,8 +71,8 @@ export default function LinkedInPage() {
             Back to home
           </Link>
           <div className="text-center mb-8">
-            <div className="w-16 h-16 bg-ref-yellow/20 rounded-full flex items-center justify-center mx-auto mb-4">
-              <Linkedin className="w-8 h-8 text-ref-yellow" />
+            <div className="w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4 bg-white border-2 border-black shadow-key">
+              <ImLinkedin2 className="w-8 h-8 text-black" />
             </div>
             <h1 className="text-4xl font-bold text-black mb-2">
               Paste Your LinkedIn Profile
@@ -82,26 +83,20 @@ export default function LinkedInPage() {
           </div>
 
           <Card>
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2">
-                <Sparkles className="w-5 h-5 text-ref-yellow" />
-                LinkedIn Profile Text
-              </CardTitle>
-              <CardDescription>
-                Copy all text from your LinkedIn profile (About, Experience, Education, Skills, etc.) and paste it below. Only text is used—images and other non-text are ignored.
-              </CardDescription>
-            </CardHeader>
           <CardContent className="space-y-6">
             <div className="space-y-2">
+              <label className="text-sm font-medium text-gray-900">
+                LinkedIn profile text
+              </label>
               <Textarea
-                placeholder="Paste your LinkedIn profile text here...&#10;&#10;Include:&#10;- Your headline and summary&#10;- Work experience&#10;- Education&#10;- Skills&#10;- Certifications&#10;- Projects"
+                placeholder="Paste your LinkedIn About, Experience, Education and Skills sections here."
                 value={linkedinText}
                 onChange={(e) => {
                   setLinkedinText(e.target.value)
                   setError(null)
                 }}
                 onPaste={handlePaste}
-                className="min-h-[300px] font-mono text-sm"
+                className="min-h-[260px] rounded-2xl bg-gray-50 text-sm"
                 disabled={isProcessing}
               />
               <p className="text-xs text-gray-500">{linkedinText.length} characters</p>
@@ -124,24 +119,29 @@ export default function LinkedInPage() {
               </ul>
             </div>
 
-            <Button
-              onClick={handleSubmit}
-              disabled={!linkedinText.trim() || isProcessing}
-              className="w-full"
-              size="lg"
-            >
-              {isProcessing ? (
-                <>
-                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                  Processing Your Profile...
-                </>
-              ) : (
-                <>
-                  <Sparkles className="mr-2 h-4 w-4" />
-                  Structure My Resume
-                </>
-              )}
-            </Button>
+            <div className="flex flex-wrap items-center gap-3">
+              <Link
+                href="/"
+                className="inline-flex items-center justify-center h-10 px-4 py-2 rounded-xl bg-white text-black hover:bg-gray-100 font-semibold border-2 border-black shadow-key hover:shadow-key-md active:shadow-key-sm text-sm transition-all"
+              >
+                Cancel
+              </Link>
+              <Button
+                variant="cta"
+                onClick={handleSubmit}
+                disabled={!linkedinText.trim() || isProcessing}
+                size="default"
+              >
+                {isProcessing ? (
+                  <>
+                    <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                    Processing...
+                  </>
+                ) : (
+                  'Structure My Resume'
+                )}
+              </Button>
+            </div>
           </CardContent>
         </Card>
 

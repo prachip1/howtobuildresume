@@ -69,7 +69,7 @@ export default function RootLayout({ children }) {
       <body className={inter.className}>
         <div className="flex min-h-screen flex-col">
           <Navbar />
-          <main className="min-h-[calc(100vh-4rem)] flex-1 bg-ref-dark">{children}</main>
+          <main className="min-h-[calc(100vh-4rem)] flex-1 bg-[#f0f0f0]">{children}</main>
           <Footer />
         </div>
         <Analytics />
