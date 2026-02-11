@@ -2,7 +2,7 @@
 const BASE_URL =
   (typeof process.env.NEXT_PUBLIC_SITE_URL === 'string' && process.env.NEXT_PUBLIC_SITE_URL.trim())
     ? process.env.NEXT_PUBLIC_SITE_URL.trim().replace(/\/$/, '')
-    : 'https://howtobuildresume.com'
+    : 'https://www.howtobuildresume.com'
 
 const staticPages = [
   { url: '', changeFrequency: 'weekly', priority: 1 },

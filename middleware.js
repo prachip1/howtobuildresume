@@ -2,6 +2,15 @@ import { createServerClient } from '@supabase/ssr'
 import { NextResponse } from 'next/server'
 
 export async function middleware(request) {
+  // Redirect non-www to www so Search Console and canonical stay consistent
+  const url = request.nextUrl
+  const host = request.headers.get('host') || ''
+  if (host === 'howtobuildresume.com') {
+    url.host = 'www.howtobuildresume.com'
+    url.protocol = 'https:'
+    return NextResponse.redirect(url, 301)
+  }
+
   let response = NextResponse.next({
     request: {
       headers: request.headers,

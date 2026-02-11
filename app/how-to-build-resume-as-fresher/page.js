@@ -4,7 +4,7 @@ import { ArrowRight } from 'lucide-react'
 const siteUrl =
   (typeof process.env.NEXT_PUBLIC_SITE_URL === 'string' && process.env.NEXT_PUBLIC_SITE_URL.trim())
     ? process.env.NEXT_PUBLIC_SITE_URL.trim().replace(/\/$/, '')
-    : 'https://howtobuildresume.com'
+    : 'https://www.howtobuildresume.com'
 
 export const metadata = {
   title: 'How to Build a Resume as a Fresher — Step-by-Step Guide (Free)',

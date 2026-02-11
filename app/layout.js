@@ -9,7 +9,7 @@ const inter = Inter({ subsets: ['latin'] })
 const siteUrl =
   (typeof process.env.NEXT_PUBLIC_SITE_URL === 'string' && process.env.NEXT_PUBLIC_SITE_URL.trim())
     ? process.env.NEXT_PUBLIC_SITE_URL.trim().replace(/\/$/, '')
-    : 'https://howtobuildresume.com'
+    : 'https://www.howtobuildresume.com'
 
 export const metadata = {
   metadataBase: new URL(siteUrl),

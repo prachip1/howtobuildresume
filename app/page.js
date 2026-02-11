@@ -5,7 +5,7 @@ import { GrLinkedin } from 'react-icons/gr'
 const siteUrl =
   (typeof process.env.NEXT_PUBLIC_SITE_URL === 'string' && process.env.NEXT_PUBLIC_SITE_URL.trim())
     ? process.env.NEXT_PUBLIC_SITE_URL.trim().replace(/\/$/, '')
-    : 'https://howtobuildresume.com'
+    : 'https://www.howtobuildresume.com'
 
 const webAppLd = {
   '@context': 'https://schema.org',
