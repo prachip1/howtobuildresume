@@ -35,6 +35,6 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 
-# editmyresume UI and API (do not push this functionality for now)
-/app/editmyresume/
+# editmyresume full editor (coming soon page is pushed; full editor kept local)
+# /app/editmyresume/ — removed so coming-soon page can be pushed
 /app/api/analyze-resume-layout/

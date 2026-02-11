@@ -1,5 +1,5 @@
 import Link from 'next/link'
-import { Upload, FileText, ArrowRight, Mail } from 'lucide-react'
+import { Upload, FileText, ArrowRight, Mail, CheckCircle2, BookOpen, Sparkles, Target } from 'lucide-react'
 import { GrLinkedin } from 'react-icons/gr'
 
 const siteUrl =
@@ -79,24 +79,14 @@ export default function Home() {
             </div>
           </div>
 
-          {/* How to build resume as fresher - target long-tail search */}
-          <section className="max-w-3xl mx-auto mb-16 text-center">
-            <h2 className="text-2xl sm:text-3xl font-bold text-black mb-4">
-              How to Build a Resume as a Fresher
-            </h2>
-            <p className="text-gray-600 mb-6">
-              New to the job market? Build your first resume with our free guide: focus on education, projects, internships, and skills. Step-by-step tips for freshers.
-            </p>
-            <Link
-              href="/how-to-build-resume-as-fresher"
-              className="inline-flex items-center gap-2 rounded-xl bg-white text-black border-2 border-black shadow-key px-5 py-2.5 font-medium hover:shadow-key-md transition-all"
-            >
-              Fresher resume guide <ArrowRight className="w-4 h-4" />
-            </Link>
-          </section>
-
-          {/* Feature Cards - Floating style like reference */}
+          {/* Three ways to start - main CTAs */}
           <div className="relative">
+            <h2 className="text-2xl sm:text-3xl font-bold text-black text-center mb-2">
+              Choose one way to start
+            </h2>
+            <p className="text-gray-600 text-center max-w-xl mx-auto mb-10">
+              Pick the option that fits you — you only need to do one.
+            </p>
             {/* Decorative green circles (secondary accent) */}
             <div className="absolute -left-20 -top-10 w-64 h-64 bg-ref-green/20 rounded-full blur-3xl -z-10" />
             <div className="absolute -right-20 bottom-20 w-48 h-48 bg-ref-green/10 rounded-full blur-3xl -z-10" />
@@ -169,6 +159,139 @@ export default function Home() {
               </Link>
             </div>
           </div>
+
+          {/* How it works */}
+          <section className="mt-24 mb-24">
+            <h2 className="text-2xl sm:text-3xl font-bold text-black text-center mb-3">
+              How it works
+            </h2>
+            <p className="text-gray-600 text-center max-w-xl mx-auto mb-12">
+              Choose your path, answer a few questions, and get a job-ready resume in minutes.
+            </p>
+            <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
+              {[
+                { step: '1', title: 'Choose your path', desc: 'Upload a resume, paste LinkedIn, or start blank.', icon: Target },
+                { step: '2', title: 'Answer smart questions', desc: 'We ask targeted questions to improve your content.', icon: Sparkles },
+                { step: '3', title: 'Edit & tailor', desc: 'Review, add keywords, and match the job description.', icon: FileText },
+                { step: '4', title: 'Export PDF', desc: 'Download an ATS-friendly resume ready to submit.', icon: CheckCircle2 },
+              ].map(({ step, title, desc, icon: Icon }) => (
+                <div
+                  key={step}
+                  className="group relative bg-white rounded-2xl p-6 border-2 border-black shadow-key-sm text-center transition-all duration-300 hover:-translate-y-0.5 hover:shadow-key-md overflow-hidden cursor-pointer"
+                >
+                  <div className="card-hover-grain" aria-hidden />
+                  <div className="relative z-10">
+                    <span className="inline-flex w-10 h-10 rounded-xl bg-ref-green text-black font-bold items-center justify-center mb-3">{step}</span>
+                    <Icon className="w-6 h-6 text-black mx-auto mb-2 opacity-80" />
+                    <h3 className="font-bold text-black mb-1">{title}</h3>
+                    <p className="text-sm text-gray-600">{desc}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </section>
+
+          {/* Why howtobuildresume */}
+          <section className="mb-24">
+            <div className="bg-white rounded-2xl border-2 border-black shadow-key p-8 sm:p-10">
+              <h2 className="text-2xl sm:text-3xl font-bold text-black text-center mb-8">
+                Why howtobuildresume
+              </h2>
+              <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                {[
+                  'Free forever — create and export without paying.',
+                  'ATS-optimized — clean format that passes applicant tracking systems.',
+                  'Three ways in — upload, paste LinkedIn, or start from scratch.',
+                  'Guided questions — we help you say more with less effort.',
+                  'PDF in minutes — no design skills needed.',
+                  'For freshers & pros — first resume or career change.',
+                ].map((line, i) => (
+                  <div key={i} className="flex items-start gap-3">
+                    <CheckCircle2 className="w-5 h-5 text-ref-green shrink-0 mt-0.5" />
+                    <span className="text-gray-700 text-sm sm:text-base">{line}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </section>
+
+          {/* Guides & resources — fresher guide lives here */}
+          <section className="mb-24">
+            <h2 className="text-2xl sm:text-3xl font-bold text-black text-center mb-3">
+              Guides & resources
+            </h2>
+            <p className="text-gray-600 text-center max-w-xl mx-auto mb-10">
+              Step-by-step guides to build a resume that gets shortlisted.
+            </p>
+            <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+              <Link
+                href="/how-to-build-resume-as-fresher"
+                className="group relative bg-white rounded-2xl p-6 border-2 border-black shadow-key hover:shadow-key-md transition-all hover:-translate-y-0.5 flex flex-col overflow-hidden"
+              >
+                <div className="card-hover-grain" aria-hidden />
+                <div className="relative z-10 flex flex-col flex-1">
+                  <BookOpen className="w-8 h-8 text-black mb-3 opacity-80" />
+                  <h3 className="font-bold text-black text-lg mb-2">How to Build a Resume as a Fresher</h3>
+                  <p className="text-sm text-gray-600 mb-4 flex-1">
+                    New to the job market? Focus on education, projects, internships, and skills. Step-by-step tips for your first resume.
+                  </p>
+                  <span className="inline-flex items-center gap-1.5 text-ref-green font-medium text-sm group-hover:gap-2 transition-all">
+                    Read guide <ArrowRight className="w-4 h-4" />
+                  </span>
+                </div>
+              </Link>
+              <Link
+                href="/how-to-write-resume"
+                className="group relative bg-white rounded-2xl p-6 border-2 border-black shadow-key hover:shadow-key-md transition-all hover:-translate-y-0.5 flex flex-col overflow-hidden"
+              >
+                <div className="card-hover-grain" aria-hidden />
+                <div className="relative z-10 flex flex-col flex-1">
+                  <FileText className="w-8 h-8 text-black mb-3 opacity-80" />
+                  <h3 className="font-bold text-black text-lg mb-2">How to Build a Resume (Full Guide)</h3>
+                  <p className="text-sm text-gray-600 mb-4 flex-1">
+                    Sections, formatting, ATS tips, and examples. Build a resume that gets past screening.
+                  </p>
+                  <span className="inline-flex items-center gap-1.5 text-ref-green font-medium text-sm group-hover:gap-2 transition-all">
+                    Read guide <ArrowRight className="w-4 h-4" />
+                  </span>
+                </div>
+              </Link>
+              <Link
+                href="/tips"
+                className="group relative bg-white rounded-2xl p-6 border-2 border-black shadow-key hover:shadow-key-md transition-all hover:-translate-y-0.5 flex flex-col overflow-hidden"
+              >
+                <div className="card-hover-grain" aria-hidden />
+                <div className="relative z-10 flex flex-col flex-1">
+                  <Sparkles className="w-8 h-8 text-black mb-3 opacity-80" />
+                  <h3 className="font-bold text-black text-lg mb-2">Resume Writing Tips</h3>
+                  <p className="text-sm text-gray-600 mb-4 flex-1">
+                    Action verbs, keywords, length, and formatting. Use these with our builder for best results.
+                  </p>
+                  <span className="inline-flex items-center gap-1.5 text-ref-green font-medium text-sm group-hover:gap-2 transition-all">
+                    Read tips <ArrowRight className="w-4 h-4" />
+                  </span>
+                </div>
+              </Link>
+            </div>
+          </section>
+
+          {/* Final CTA */}
+          <section className="text-center pb-8">
+            <div className="bg-white rounded-2xl border-2 border-black shadow-key p-8 sm:p-10 max-w-2xl mx-auto">
+              <h2 className="text-xl sm:text-2xl font-bold text-black mb-2">
+                Ready to build your resume?
+              </h2>
+              <p className="text-gray-600 mb-6">
+                Upload, paste LinkedIn, or start blank — free.
+              </p>
+              <Link
+                href="/signup"
+                className="inline-flex items-center gap-2 rounded-xl bg-ref-green text-black border-2 border-black shadow-key px-6 py-3 font-semibold hover:shadow-key-md transition-all"
+              >
+                Get started — it&apos;s free <ArrowRight className="w-4 h-4" />
+              </Link>
+            </div>
+          </section>
         </div>
       </div>
     </div>
