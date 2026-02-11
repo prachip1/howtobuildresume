@@ -2,12 +2,12 @@ import Link from 'next/link'
 import { ArrowRight } from 'lucide-react'
 
 export const metadata = {
-  title: 'ATS Resume Tips - Pass Applicant Tracking Systems',
+  title: 'ATS Resume Tips — Build a Resume That Passes ATS',
   description:
-    'How to make your resume ATS-friendly: keywords, formatting, section names, and file format. Get past applicant tracking systems and land more interviews.',
+    'How to build a resume that passes ATS: keywords, formatting, section names, file format. Get past applicant tracking systems. Free resume builder.',
   openGraph: {
-    title: 'ATS Resume Tips | howtobuildresume',
-    description: 'Make your resume pass ATS. Keywords, formatting, and best practices.',
+    title: 'ATS Resume Tips — Build Resume for ATS | howtobuildresume',
+    description: 'Build a resume that passes ATS. Keywords, formatting, and best practices.',
   },
 }
 

@@ -1,14 +1,22 @@
 import Link from 'next/link'
 import { ArrowRight } from 'lucide-react'
 
+const siteUrl =
+  (typeof process.env.NEXT_PUBLIC_SITE_URL === 'string' && process.env.NEXT_PUBLIC_SITE_URL.trim())
+    ? process.env.NEXT_PUBLIC_SITE_URL.trim().replace(/\/$/, '')
+    : 'https://howtobuildresume.com'
+
 export const metadata = {
-  title: 'How to Build a Resume - Step-by-Step Guide for 2025',
+  title: 'How to Build a Resume — Step-by-Step Guide (Free)',
   description:
-    'Learn how to build a resume from scratch: sections, formatting, ATS optimization, and examples. Free guide + resume builder. How to build a resume that gets hired.',
+    'How to build a resume from scratch: sections, formatting, ATS optimization. Build resume that gets hired. Free guide + resume builder. Build a resume in minutes.',
+  keywords: ['how to build a resume', 'how to build resume', 'build resume', 'build a resume', 'resume guide'],
   openGraph: {
-    title: 'How to Build a Resume | howtobuildresume',
+    title: 'How to Build a Resume — Step-by-Step Guide | howtobuildresume',
     description: 'Step-by-step guide: how to build a resume. Free resume builder included.',
+    url: `${siteUrl}/how-to-write-resume`,
   },
+  alternates: { canonical: `${siteUrl}/how-to-write-resume` },
 }
 
 const steps = [

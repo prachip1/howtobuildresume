@@ -2,12 +2,12 @@ import Link from 'next/link'
 import { ArrowRight } from 'lucide-react'
 
 export const metadata = {
-  title: 'Resume Writing Tips - Build a Standout Resume',
+  title: 'Resume Writing Tips — How to Build a Standout Resume',
   description:
-    'Expert resume writing tips: structure, action verbs, keywords, length, and formatting. Use these tips with our free resume builder for best results.',
+    'Expert resume writing tips: structure, action verbs, keywords. Build a resume that gets noticed. Free resume builder tips for freshers and professionals.',
   openGraph: {
-    title: 'Resume Writing Tips | howtobuildresume',
-    description: 'Expert resume writing tips to build a standout, ATS-friendly resume.',
+    title: 'Resume Writing Tips — Build a Resume | howtobuildresume',
+    description: 'Expert tips to build a standout, ATS-friendly resume. Free resume builder.',
   },
 }
 

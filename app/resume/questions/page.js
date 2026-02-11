@@ -72,7 +72,7 @@ export default function QuestionsPage() {
     } catch (error) {
       console.error('Error generating questions:', error)
       // Fallback: redirect to editor
-      router.push('/resume/edit')
+      router.push('/editmyresume')
     } finally {
       setIsGeneratingQuestions(false)
     }
@@ -120,7 +120,7 @@ export default function QuestionsPage() {
       if (nextIndex >= QUESTION_FLOW.blank.length) {
         // All questions done, go to editor
         sessionStorage.setItem('resumeData', JSON.stringify(updated))
-        router.push('/resume/edit')
+        router.push('/editmyresume')
         return
       }
       
@@ -135,7 +135,7 @@ export default function QuestionsPage() {
       if (currentIndex >= dynamicQuestions.length - 1) {
         // All questions done
         sessionStorage.setItem('resumeData', JSON.stringify(updated))
-        router.push('/resume/edit')
+        router.push('/editmyresume')
         return
       }
       

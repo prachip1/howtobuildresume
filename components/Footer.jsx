@@ -3,6 +3,7 @@ import Link from 'next/link'
 const resourcesLinks = [
   { href: '/tips', label: 'Resume Tips' },
   { href: '/how-to-write-resume', label: 'How to Build a Resume' },
+  { href: '/how-to-build-resume-as-fresher', label: 'Resume for Freshers' },
   { href: '/ats-resume-tips', label: 'ATS Resume Tips' },
   { href: '/faq', label: 'FAQ' },
   { href: '/about', label: 'About' },
@@ -21,7 +22,7 @@ export default function Footer() {
               <span className="font-semibold text-gray-800">howtobuildresume</span>
             </div>
             <p className="mt-2 text-sm text-gray-500 max-w-xs">
-              Free ATS-optimized resume builder. Build your first resume without hassle.
+              How to build a resume in minutes. Free ATS resume builder for freshers and professionals.
             </p>
           </div>
 

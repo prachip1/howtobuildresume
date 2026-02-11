@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import { usePathname, useRouter } from 'next/navigation'
-import { FileText, Upload, Linkedin, Home, LayoutDashboard, LogOut } from 'lucide-react'
+import { FileText, Upload, Linkedin, Home, LayoutDashboard, LogOut, Pencil } from 'lucide-react'
 import { createClient } from '@/lib/supabase/client'
 
 const navLinks = [
@@ -11,6 +11,7 @@ const navLinks = [
   { href: '/upload', label: 'Upload', icon: Upload },
   { href: '/linkedin', label: 'LinkedIn', icon: Linkedin },
   { href: '/blank', label: 'Start Blank', icon: FileText },
+  { href: '/editmyresume', label: 'Edit my resume', icon: Pencil },
 ]
 
 export default function Navbar() {

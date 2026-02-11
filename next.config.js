@@ -12,6 +12,21 @@ const nextConfig = {
         destination: '/how-to-write-resume',
         permanent: true,
       },
+      {
+        source: '/build-resume',
+        destination: '/',
+        permanent: true,
+      },
+      {
+        source: '/build-a-resume',
+        destination: '/',
+        permanent: true,
+      },
+      {
+        source: '/resume/edit',
+        destination: '/editmyresume',
+        permanent: true,
+      },
     ]
   },
 }

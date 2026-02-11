@@ -1,18 +1,33 @@
 'use client'
 
-export default function ResumeTemplate({ resumeData }) {
+const spacingMap = {
+  compact: 'mb-4',
+  normal: 'mb-6',
+  relaxed: 'mb-8',
+}
+
+export default function ResumeTemplate({ resumeData, layout }) {
   if (!resumeData) return null
 
   const { personalInfo, summary, workExperience, education, skills, projects, certifications } = resumeData
+  const nameAlign = layout?.nameAlignment === 'center' ? 'text-center' : 'text-left'
+  const bodyAlign = layout?.bodyAlignment === 'justify' ? 'text-justify' : 'text-left'
+  const sectionSpacing = spacingMap[layout?.spacing] || 'mb-6'
+  const twoCol = layout?.columns === 2
+  const isMinimal = layout?.style === 'minimal'
+  const isModern = layout?.style === 'modern'
 
   return (
-    <div className="bg-white p-8 max-w-4xl mx-auto shadow-lg" id="resume-content">
+    <div
+      className={`bg-white max-w-4xl mx-auto shadow-lg ${twoCol ? 'p-6' : 'p-8'} ${bodyAlign}`}
+      id="resume-content"
+    >
       {/* Header */}
-      <header className="mb-6 border-b-2 border-gray-800 pb-4">
-        <h1 className="text-3xl font-bold text-gray-900 mb-2">
+      <header className={`${sectionSpacing} border-b-2 border-gray-800 pb-4 ${nameAlign}`}>
+        <h1 className={`text-gray-900 mb-2 ${isMinimal ? 'text-2xl font-semibold' : isModern ? 'text-3xl font-bold tracking-tight' : 'text-3xl font-bold'}`}>
           {personalInfo?.name || 'Your Name'}
         </h1>
-        <div className="flex flex-wrap gap-4 text-sm text-gray-700">
+        <div className={`flex flex-wrap gap-4 text-sm text-gray-700 ${nameAlign === 'text-center' ? 'justify-center' : ''}`}>
           {personalInfo?.email && (
             <span>{personalInfo.email}</span>
           )}
@@ -42,8 +57,8 @@ export default function ResumeTemplate({ resumeData }) {
 
       {/* Professional Summary */}
       {summary && (
-        <section className="mb-6">
-          <h2 className="text-xl font-bold text-gray-900 mb-2 uppercase tracking-wide border-b border-gray-300 pb-1">
+        <section className={sectionSpacing}>
+          <h2 className={`text-gray-900 mb-2 uppercase tracking-wide border-b border-gray-300 pb-1 ${isMinimal ? 'text-lg font-semibold' : 'text-xl font-bold'}`}>
             Professional Summary
           </h2>
           <p className="text-gray-700 leading-relaxed">
@@ -54,8 +69,8 @@ export default function ResumeTemplate({ resumeData }) {
 
       {/* Work Experience */}
       {workExperience && workExperience.length > 0 && (
-        <section className="mb-6">
-          <h2 className="text-xl font-bold text-gray-900 mb-3 uppercase tracking-wide border-b border-gray-300 pb-1">
+        <section className={sectionSpacing}>
+          <h2 className={`text-gray-900 mb-3 uppercase tracking-wide border-b border-gray-300 pb-1 ${isMinimal ? 'text-lg font-semibold' : 'text-xl font-bold'}`}>
             Professional Experience
           </h2>
           <div className="space-y-4">
@@ -103,8 +118,8 @@ export default function ResumeTemplate({ resumeData }) {
 
       {/* Education */}
       {education && education.length > 0 && (
-        <section className="mb-6">
-          <h2 className="text-xl font-bold text-gray-900 mb-3 uppercase tracking-wide border-b border-gray-300 pb-1">
+        <section className={sectionSpacing}>
+          <h2 className={`text-gray-900 mb-3 uppercase tracking-wide border-b border-gray-300 pb-1 ${isMinimal ? 'text-lg font-semibold' : 'text-xl font-bold'}`}>
             Education
           </h2>
           <div className="space-y-3">
@@ -143,8 +158,8 @@ export default function ResumeTemplate({ resumeData }) {
 
       {/* Skills */}
       {skills && skills.length > 0 && (
-        <section className="mb-6">
-          <h2 className="text-xl font-bold text-gray-900 mb-3 uppercase tracking-wide border-b border-gray-300 pb-1">
+        <section className={sectionSpacing}>
+          <h2 className={`text-gray-900 mb-3 uppercase tracking-wide border-b border-gray-300 pb-1 ${isMinimal ? 'text-lg font-semibold' : 'text-xl font-bold'}`}>
             Skills
           </h2>
           <div className="flex flex-wrap gap-2">
@@ -162,8 +177,8 @@ export default function ResumeTemplate({ resumeData }) {
 
       {/* Projects */}
       {projects && projects.length > 0 && (
-        <section className="mb-6">
-          <h2 className="text-xl font-bold text-gray-900 mb-3 uppercase tracking-wide border-b border-gray-300 pb-1">
+        <section className={sectionSpacing}>
+          <h2 className={`text-gray-900 mb-3 uppercase tracking-wide border-b border-gray-300 pb-1 ${isMinimal ? 'text-lg font-semibold' : 'text-xl font-bold'}`}>
             Projects
           </h2>
           <div className="space-y-3">
@@ -205,8 +220,8 @@ export default function ResumeTemplate({ resumeData }) {
 
       {/* Certifications */}
       {certifications && certifications.length > 0 && (
-        <section className="mb-6">
-          <h2 className="text-xl font-bold text-gray-900 mb-3 uppercase tracking-wide border-b border-gray-300 pb-1">
+        <section className={sectionSpacing}>
+          <h2 className={`text-gray-900 mb-3 uppercase tracking-wide border-b border-gray-300 pb-1 ${isMinimal ? 'text-lg font-semibold' : 'text-xl font-bold'}`}>
             Certifications
           </h2>
           <div className="space-y-2">

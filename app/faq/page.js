@@ -2,12 +2,12 @@ import Link from 'next/link'
 import { ArrowRight } from 'lucide-react'
 
 export const metadata = {
-  title: 'FAQ - Resume Builder Questions Answered',
+  title: 'FAQ — How to Build a Resume & Resume Builder Questions',
   description:
-    'Frequently asked questions about howtobuildresume: how to build a resume, upload vs LinkedIn vs blank, ATS, PDF export, and more.',
+    'FAQ: How to build a resume, build resume as fresher, upload vs LinkedIn vs blank, ATS, PDF export. Get answers about our free resume builder.',
   openGraph: {
-    title: 'FAQ | howtobuildresume',
-    description: 'Frequently asked questions about our free resume builder.',
+    title: 'FAQ — How to Build a Resume | howtobuildresume',
+    description: 'Frequently asked questions about how to build a resume and our free resume builder.',
   },
 }
 
@@ -15,6 +15,10 @@ const faqs = [
   {
     q: 'How do I build my resume?',
     a: 'You can upload an existing resume (we\'ll enhance it with smart questions), paste your LinkedIn profile (we\'ll turn it into a resume), or start from a blank template. Pick one path on the homepage and follow the steps.',
+  },
+  {
+    q: 'How to build a resume as a fresher?',
+    a: 'As a fresher, use our blank template or paste LinkedIn. Focus on education, projects, internships, and skills. See our step-by-step guide at how-to-build-resume-as-fresher and use our free resume builder.',
   },
   {
     q: 'Is howtobuildresume free?',
@@ -42,17 +46,28 @@ const faqs = [
   },
 ]
 
+const faqSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: faqs.map(({ q, a }) => ({
+    '@type': 'Question',
+    name: q,
+    acceptedAnswer: { '@type': 'Answer', text: a },
+  })),
+}
+
 export default function FaqPage() {
   return (
     <div className="min-h-full bg-[#f0f0f0]">
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }} />
       <div className="bg-[#f0f0f0] rounded-t-3xl min-h-[calc(100vh-4rem)] pt-12 pb-24 px-4 sm:px-6 lg:px-8">
         <article className="max-w-3xl mx-auto">
           <header className="mb-12">
             <h1 className="text-3xl sm:text-4xl font-bold text-black mb-4">
-              Frequently Asked Questions
+              Frequently Asked Questions — How to Build a Resume
             </h1>
             <p className="text-lg text-gray-600">
-              Common questions about howtobuildresume and how to build your first resume.
+              Common questions about how to build a resume and howtobuildresume: upload, LinkedIn, blank template, ATS, and more.
             </p>
           </header>
 

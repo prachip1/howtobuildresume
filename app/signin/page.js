@@ -19,7 +19,7 @@ export default function SigninPage() {
   const [password, setPassword] = useState('')
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState('')
-  const [redirectTo, setRedirectTo] = useState('/resume/edit')
+  const [redirectTo, setRedirectTo] = useState('/editmyresume')
 
   useEffect(() => {
     if (typeof window === 'undefined') return

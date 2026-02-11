@@ -7,24 +7,46 @@ const siteUrl =
     ? process.env.NEXT_PUBLIC_SITE_URL.trim().replace(/\/$/, '')
     : 'https://howtobuildresume.com'
 
-const jsonLd = {
+const webAppLd = {
   '@context': 'https://schema.org',
   '@type': 'WebApplication',
   name: 'howtobuildresume - How to Build a Resume',
-  description: 'Learn how to build a resume in minutes. Free ATS-optimized resume builder. Upload your resume, paste LinkedIn, or start from scratch.',
+  description: 'How to build a resume in minutes. Free ATS resume builder. Build resume as fresher or professional—upload, paste LinkedIn, or start blank.',
   url: siteUrl,
   applicationCategory: 'BusinessApplication',
   offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
-  featureList: ['How to build a resume', 'Upload resume', 'Paste LinkedIn', 'Start blank', 'ATS-optimized', 'PDF export'],
+  featureList: ['How to build a resume', 'How to build resume as fresher', 'Build resume', 'Upload resume', 'Paste LinkedIn', 'Start blank', 'ATS-optimized', 'PDF export'],
+}
+
+const howToLd = {
+  '@context': 'https://schema.org',
+  '@type': 'HowTo',
+  name: 'How to Build a Resume',
+  description: 'Step-by-step guide to build a resume: upload existing resume, paste LinkedIn, or start from blank. Free ATS-optimized resume builder.',
+  step: [
+    { '@type': 'HowToStep', name: 'Choose your path', text: 'Upload your resume, paste your LinkedIn profile, or start from a blank template.' },
+    { '@type': 'HowToStep', name: 'Answer smart questions', text: 'We ask targeted questions to improve your resume content and structure.' },
+    { '@type': 'HowToStep', name: 'Edit and tailor', text: 'Review and edit your resume. Add keywords from job descriptions for ATS.' },
+    { '@type': 'HowToStep', name: 'Export PDF', text: 'Download your resume as a professional PDF ready to submit to jobs.' },
+  ],
+}
+
+const faqLd = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: [
+    { '@type': 'Question', name: 'How do I build a resume?', acceptedAnswer: { '@type': 'Answer', text: 'You can upload an existing resume (we\'ll enhance it with smart questions), paste your LinkedIn profile (we\'ll turn it into a resume), or start from a blank template. Pick one path on the homepage and follow the steps.' } },
+    { '@type': 'Question', name: 'How to build a resume as a fresher?', acceptedAnswer: { '@type': 'Answer', text: 'As a fresher, start with our blank template or paste your LinkedIn. Focus on education, projects, internships, and skills. Use our step-by-step guide and ATS tips. Build resume free at howtobuildresume.' } },
+    { '@type': 'Question', name: 'Is the resume builder free?', acceptedAnswer: { '@type': 'Answer', text: 'Yes. You can create and export your resume for free. The core resume builder is free.' } },
+  ],
 }
 
 export default function Home() {
   return (
     <div className="min-h-full bg-[#f0f0f0]">
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
-      />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(webAppLd) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(howToLd) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqLd) }} />
       {/* Main content area - same bg as outer so no black peeking at rounded corners */}
       <div className="bg-[#f0f0f0] rounded-t-3xl min-h-[calc(100vh-4rem)] pt-12 pb-24 px-4 sm:px-6 lg:px-8">
         <div className="max-w-6xl mx-auto">
@@ -36,7 +58,7 @@ export default function Home() {
               <span className="text-gray-700 font-normal">without hassle.</span>
             </h1>
             <p className="text-lg text-gray-600 max-w-2xl mx-auto mb-8">
-              Learn how to build a resume in minutes. Free ATS-optimized resume builder—upload your file, paste LinkedIn, or start from scratch.
+              Learn how to build a resume in minutes—whether you&apos;re a fresher or a professional. Free ATS resume builder: upload your file, paste LinkedIn, or start from scratch.
             </p>
             {/* CTA - Email + Register like reference */}
             <div className="flex flex-col sm:flex-row gap-3 justify-center items-center max-w-md mx-auto">
@@ -56,6 +78,22 @@ export default function Home() {
               </Link>
             </div>
           </div>
+
+          {/* How to build resume as fresher - target long-tail search */}
+          <section className="max-w-3xl mx-auto mb-16 text-center">
+            <h2 className="text-2xl sm:text-3xl font-bold text-black mb-4">
+              How to Build a Resume as a Fresher
+            </h2>
+            <p className="text-gray-600 mb-6">
+              New to the job market? Build your first resume with our free guide: focus on education, projects, internships, and skills. Step-by-step tips for freshers.
+            </p>
+            <Link
+              href="/how-to-build-resume-as-fresher"
+              className="inline-flex items-center gap-2 rounded-xl bg-white text-black border-2 border-black shadow-key px-5 py-2.5 font-medium hover:shadow-key-md transition-all"
+            >
+              Fresher resume guide <ArrowRight className="w-4 h-4" />
+            </Link>
+          </section>
 
           {/* Feature Cards - Floating style like reference */}
           <div className="relative">

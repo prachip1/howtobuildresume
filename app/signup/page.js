@@ -20,7 +20,7 @@ export default function SignupPage() {
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState('')
   const [successMessage, setSuccessMessage] = useState('')
-  const [redirectTo, setRedirectTo] = useState('/resume/edit')
+  const [redirectTo, setRedirectTo] = useState('/editmyresume')
 
   useEffect(() => {
     if (typeof window === 'undefined') return
@@ -139,7 +139,7 @@ export default function SignupPage() {
                     <p>{successMessage}</p>
                     {successMessage.includes('Check your email') && (
                       <Link
-                        href={`/signin${redirectTo !== '/resume/edit' ? `?redirect=${encodeURIComponent(redirectTo)}` : ''}`}
+                        href={`/signin${redirectTo !== '/editmyresume' ? `?redirect=${encodeURIComponent(redirectTo)}` : ''}`}
                         className="inline-block font-medium text-green-700 hover:underline"
                       >
                         Go to sign in →

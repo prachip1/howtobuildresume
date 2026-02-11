@@ -26,6 +26,27 @@ export default function UploadPage() {
     }
   }
 
+  /** For PDF: render first page to image so the server can use vision to match layout. */
+  const getPdfFirstPageBase64 = async (fileObj) => {
+    const pdfjsLib = await import('pdfjs-dist')
+    if (typeof window !== 'undefined' && pdfjsLib.GlobalWorkerOptions) {
+      pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://unpkg.com/pdfjs-dist@4.0.379/build/pdf.worker.min.mjs'
+    }
+    const arrayBuffer = await fileObj.arrayBuffer()
+    const pdf = await pdfjsLib.getDocument({ data: arrayBuffer }).promise
+    const page = await pdf.getPage(1)
+    const scale = 2
+    const viewport = page.getViewport({ scale })
+    const canvas = document.createElement('canvas')
+    canvas.width = viewport.width
+    canvas.height = viewport.height
+    const ctx = canvas.getContext('2d')
+    const renderTask = page.render({ canvasContext: ctx, viewport })
+    await renderTask.promise
+    const dataUrl = canvas.toDataURL('image/png')
+    return dataUrl.indexOf(',') >= 0 ? dataUrl.split(',')[1] : dataUrl
+  }
+
   const handleUpload = async () => {
     if (!file) {
       setError('Please select a file')
@@ -39,20 +60,31 @@ export default function UploadPage() {
       const formData = new FormData()
       formData.append('file', file)
 
+      // For PDFs: send first-page image so server can use vision to match your resume layout
+      if (file.type === 'application/pdf') {
+        try {
+          const firstPageBase64 = await getPdfFirstPageBase64(file)
+          if (firstPageBase64) formData.append('firstPageImage', firstPageBase64)
+        } catch (e) {
+          console.warn('Could not render PDF first page for layout:', e)
+        }
+      }
+
       const response = await fetch('/api/parse-file', {
         method: 'POST',
         body: formData,
       })
 
       if (!response.ok) {
-        const error = await response.json()
-        throw new Error(error.error || 'Failed to process resume')
+        const errBody = await response.json()
+        throw new Error(errBody.error || 'Failed to process resume')
       }
 
-      const { resumeData } = await response.json()
+      const { resumeData, layout } = await response.json()
       sessionStorage.setItem('resumeData', JSON.stringify(resumeData))
       sessionStorage.setItem('resumeSource', 'upload')
-      router.push('/resume/questions')
+      if (layout) sessionStorage.setItem('resumeLayout', JSON.stringify(layout))
+      router.push('/resume/preview')
     } catch (err) {
       console.error('Upload error:', err)
       setError(err.message || 'Failed to process resume. Please try again.')

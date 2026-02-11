@@ -41,7 +41,7 @@ export default function DashboardPage() {
   const openResume = (id) => {
     sessionStorage.setItem('resumeId', id)
     sessionStorage.removeItem('resumeData') // force load from DB
-    router.push('/resume/edit')
+    router.push('/editmyresume')
   }
 
   if (loading) {

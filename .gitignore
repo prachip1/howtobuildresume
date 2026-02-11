@@ -34,3 +34,7 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# editmyresume UI and API (do not push this functionality for now)
+/app/editmyresume/
+/app/api/analyze-resume-layout/
