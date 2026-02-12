@@ -1,5 +1,5 @@
 import Link from 'next/link'
-import { Upload, FileText, ArrowRight, Mail, CheckCircle2, BookOpen, Sparkles, Target } from 'lucide-react'
+import { Upload, FileText, ArrowRight, Mail, CheckCircle2, BookOpen, Sparkles, Target, Award } from 'lucide-react'
 import { GrLinkedin } from 'react-icons/gr'
 
 const siteUrl =
@@ -234,6 +234,22 @@ export default function Home() {
                   <h3 className="font-bold text-black text-lg mb-2">How to Build a Resume as a Fresher</h3>
                   <p className="text-sm text-gray-600 mb-4 flex-1">
                     New to the job market? Focus on education, projects, internships, and skills. Step-by-step tips for your first resume.
+                  </p>
+                  <span className="inline-flex items-center gap-1.5 text-ref-green font-medium text-sm group-hover:gap-2 transition-all">
+                    Read guide <ArrowRight className="w-4 h-4" />
+                  </span>
+                </div>
+              </Link>
+              <Link
+                href="/how-to-build-a-strong-resume"
+                className="group relative bg-white rounded-2xl p-6 border-2 border-black shadow-key hover:shadow-key-md transition-all hover:-translate-y-0.5 flex flex-col overflow-hidden"
+              >
+                <div className="card-hover-grain" aria-hidden />
+                <div className="relative z-10 flex flex-col flex-1">
+                  <Award className="w-8 h-8 text-black mb-3 opacity-80" />
+                  <h3 className="font-bold text-black text-lg mb-2">How to Build a Strong Resume</h3>
+                  <p className="text-sm text-gray-600 mb-4 flex-1">
+                    Impact-focused bullets, keyword alignment, and tailoring. Make your resume stand out and get shortlisted.
                   </p>
                   <span className="inline-flex items-center gap-1.5 text-ref-green font-medium text-sm group-hover:gap-2 transition-all">
                     Read guide <ArrowRight className="w-4 h-4" />

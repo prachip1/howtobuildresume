@@ -18,11 +18,10 @@
 
 3. **Set Up Supabase Database**
    
-   - Go to your Supabase project dashboard
-   - Navigate to SQL Editor
-   - Run the SQL script from `README.md` (Database Setup section)
-   - Run `supabase-profiles.sql` so signups create a row in the **profiles** table (optional but recommended)
-   - Signups are always stored in **Authentication → Users**; the profiles script also adds a row per user in Table Editor
+   - Go to your Supabase project dashboard → **SQL Editor** → New query
+   - Run **`supabase-full-schema.sql`** once (creates all tables + RLS + profiles trigger)
+   - Alternatively: run the SQL from `README.md` (Database Setup) then `supabase-profiles.sql` (profiles table)
+   - Signups are stored in **Authentication → Users**; resume data is stored in **resumes**, **personal_info**, **work_experience**, **education**, **skills**, **projects** when the user saves (e.g. from the Edit My Resume flow)
 
 4. **Run the Development Server**
    ```bash
@@ -50,14 +49,19 @@
 
 ## Database Schema
 
-The SQL script in `README.md` creates:
-- `resumes` - Main resume records
-- `personal_info` - Contact information
+**Recommended:** Run `supabase-full-schema.sql` once in Supabase SQL Editor. It creates:
+
+- `resumes` - Main resume records (user_id, name, summary, etc.)
+- `personal_info` - Contact info + summary (one row per resume)
 - `work_experience` - Job history
 - `education` - Educational background
-- `skills` - Technical and soft skills
+- `skills` - Skills list
 - `projects` - Project portfolio
-- `certifications` - Professional certifications
+- `certifications` - Certifications
+- `profiles` - One row per signed-up user (optional, for Table Editor)
+- **RLS policies** so users only access their own resumes
+
+**Where is resume data stored?** While building, data lives in the browser (sessionStorage). It is written to Supabase when the user **saves** from the Edit My Resume page (or when that flow is enabled). The Dashboard lists resumes from the `resumes` table for the logged-in user.
 
 ## Project Structure
 

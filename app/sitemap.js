@@ -14,6 +14,7 @@ const staticPages = [
   { url: '/signin', changeFrequency: 'monthly', priority: 0.6 },
   { url: '/tips', changeFrequency: 'weekly', priority: 0.9 },
   { url: '/how-to-write-resume', changeFrequency: 'monthly', priority: 0.9 },
+  { url: '/how-to-build-a-strong-resume', changeFrequency: 'monthly', priority: 0.9 },
   { url: '/how-to-build-resume-as-fresher', changeFrequency: 'monthly', priority: 0.9 },
   { url: '/ats-resume-tips', changeFrequency: 'monthly', priority: 0.9 },
   { url: '/faq', changeFrequency: 'monthly', priority: 0.8 },
