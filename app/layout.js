@@ -14,11 +14,11 @@ const siteUrl =
 export const metadata = {
   metadataBase: new URL(siteUrl),
   title: {
-    default: 'How to Build a Resume — Free Resume Builder for Freshers & Professionals',
+    default: 'Build a Resume — Free | howtobuildresume',
     template: '%s | howtobuildresume',
   },
   description:
-    'How to build a resume in minutes: free guide + ATS resume builder. Build resume as fresher or professional—upload file, paste LinkedIn, or start blank. Build resume that gets hired.',
+    'Upload your file, paste LinkedIn, or start from scratch. Get an ATS-ready resume and export to PDF. Free. No credit card.',
   keywords: [
     'how to build resume',
     'how to build a resume',
@@ -45,15 +45,15 @@ export const metadata = {
     locale: 'en_US',
     url: siteUrl,
     siteName: 'howtobuildresume',
-    title: 'How to Build a Resume — Free Resume Builder for Freshers & Professionals',
+    title: 'Build a Resume — Free | howtobuildresume',
     description:
-      'How to build a resume in minutes. Build resume as fresher or pro—upload, paste LinkedIn, or start blank. Free ATS resume builder.',
+      'Upload your file, paste LinkedIn, or start from scratch. ATS-ready resume + PDF export. Free.',
     images: [{ url: '/howtobuildresume.png', width: 1200, height: 630, alt: 'howtobuildresume - How to Build a Resume' }],
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'How to Build a Resume — Free Resume Builder | howtobuildresume',
-    description: 'How to build a resume in minutes. Build resume as fresher or professional. Free ATS resume builder.',
+    title: 'Build a Resume — Free | howtobuildresume',
+    description: 'Upload, paste LinkedIn, or start from scratch. ATS-ready resume + PDF. Free.',
   },
   robots: {
     index: true,
