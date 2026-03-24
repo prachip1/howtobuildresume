@@ -37,6 +37,7 @@ export default function BlankPage() {
     sessionStorage.setItem('resumeData', JSON.stringify(emptyResumeData))
     sessionStorage.setItem('resumeSource', 'blank')
     sessionStorage.setItem('currentStep', '0')
+    window.LyticData?.track('jd_resume', { source: 'blank' })
     router.push('/resume/questions')
   }
 

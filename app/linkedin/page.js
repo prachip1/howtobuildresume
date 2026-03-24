@@ -50,6 +50,7 @@ export default function LinkedInPage() {
       const { resumeData } = await response.json()
       sessionStorage.setItem('resumeData', JSON.stringify(resumeData))
       sessionStorage.setItem('resumeSource', 'linkedin')
+      window.LyticData?.track('jd_resume', { source: 'linkedin' })
       router.push('/resume/questions')
     } catch (err) {
       console.error('LinkedIn parsing error:', err)

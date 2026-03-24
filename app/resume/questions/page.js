@@ -69,6 +69,7 @@ export default function QuestionsPage() {
         setCurrentQuestion(questions[0])
         setAnswer(getAnswerFromData(data, questions[0]))
       }
+      window.LyticData?.track('ats_score', { source: sessionStorage.getItem('resumeSource') || 'upload' })
     } catch (error) {
       console.error('Error generating questions:', error)
       // Fallback: redirect to editor

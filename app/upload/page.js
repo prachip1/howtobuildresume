@@ -84,6 +84,7 @@ export default function UploadPage() {
       sessionStorage.setItem('resumeData', JSON.stringify(resumeData))
       sessionStorage.setItem('resumeSource', 'upload')
       if (layout) sessionStorage.setItem('resumeLayout', JSON.stringify(layout))
+      window.LyticData?.track('resume_analysis', { fileType: file.type })
       router.push('/resume/preview')
     } catch (err) {
       console.error('Upload error:', err)

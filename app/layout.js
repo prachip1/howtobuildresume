@@ -3,6 +3,7 @@ import { Inter } from 'next/font/google'
 import Navbar from '@/components/Navbar'
 import Footer from '@/components/Footer'
 import { Analytics } from "@vercel/analytics/next"
+import Script from 'next/script'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -80,6 +81,11 @@ export default function RootLayout({ children }) {
           <Footer />
         </div>
         <Analytics />
+        {/* LocalData analytics */}
+        <Script id="localdata-config" strategy="beforeInteractive">{`
+          window.LOCALDATA_CONFIG = { apiKey: '${process.env.NEXT_PUBLIC_LOCALDATA_API_KEY || ''}' };
+        `}</Script>
+        <Script src="https://www.localdata.to/localdata.js" strategy="afterInteractive" />
       </body>
     </html>
   )

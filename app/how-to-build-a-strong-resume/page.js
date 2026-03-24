@@ -106,6 +106,16 @@ export default function HowToBuildAStrongResumePage() {
               Start building <ArrowRight className="w-4 h-4" />
             </Link>
           </section>
+
+          <section className="mt-8 p-6 bg-white rounded-2xl border-2 border-black shadow-key">
+            <h2 className="text-xl font-bold text-black mb-3">More resume guides</h2>
+            <ul className="space-y-2 text-gray-700">
+              <li><Link href="/how-to-write-resume" className="text-black font-medium underline underline-offset-2">How to build a resume — step-by-step guide</Link></li>
+              <li><Link href="/tips" className="text-black font-medium underline underline-offset-2">Resume writing tips</Link></li>
+              <li><Link href="/how-to-build-resume-as-fresher" className="text-black font-medium underline underline-offset-2">How to build a resume as a fresher</Link></li>
+              <li><Link href="/ats-resume-tips" className="text-black font-medium underline underline-offset-2">ATS resume tips</Link></li>
+            </ul>
+          </section>
         </article>
       </div>
     </div>
