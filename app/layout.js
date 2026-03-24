@@ -66,8 +66,7 @@ export const metadata = {
     icon: '/howtobuildresume.png',
   },
   verification: {
-    // Add your verification codes when you have them (Google Search Console, etc.)
-    // google: 'your-google-verification-code',
+    google: 'JWaXGAuBaF5G7Lkdk98W1TmFN9TRmda9we4dLpZP1QA',
   },
 }
 
