@@ -1,5 +1,5 @@
 import Link from 'next/link'
-import { Upload, FileText, ArrowRight, Mail, CheckCircle2, BookOpen, Sparkles, Target, Award } from 'lucide-react'
+import { Upload, FileText, ArrowRight, Mail, CheckCircle2, BookOpen, Sparkles, Target, Award, GraduationCap } from 'lucide-react'
 import { GrLinkedin } from 'react-icons/gr'
 
 const siteUrl =
@@ -94,7 +94,7 @@ export default function Home() {
             <div className="absolute -left-20 -top-10 w-64 h-64 bg-ref-green/20 rounded-full blur-3xl -z-10" />
             <div className="absolute -right-20 bottom-20 w-48 h-48 bg-ref-green/10 rounded-full blur-3xl -z-10" />
 
-            <div className="grid md:grid-cols-3 gap-6 lg:gap-8">
+            <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
               {/* Upload Card - white face, black outline, right-inclined shadow */}
               <Link
                 href="/upload"
@@ -153,6 +153,31 @@ export default function Home() {
                     <h3 className="font-bold text-black text-lg mb-1">Start Blank</h3>
                     <p className="text-sm text-gray-700 mb-4">
                       Begin from scratch with our guided step-by-step process.
+                    </p>
+                    <span className="inline-flex items-center gap-1.5 rounded-xl bg-ref-green text-black border-2 border-black shadow-key px-4 py-2 font-medium text-sm group-hover:shadow-key-md transition-all">
+                      Get Started <ArrowRight className="w-4 h-4" />
+                    </span>
+                  </div>
+                </div>
+              </Link>
+
+              {/* Academic / Graduate School Card */}
+              <Link
+                href="/academic"
+                className="group relative bg-white rounded-2xl p-6 sm:p-8 border-2 border-black transition-all duration-300 hover:-translate-y-0.5 shadow-key hover:shadow-key-md overflow-hidden"
+              >
+                <div className="card-hover-grain" aria-hidden />
+                <div className="relative z-10 flex items-start gap-4">
+                  <div className="w-12 h-12 rounded-xl bg-white border-2 border-black flex items-center justify-center shrink-0 shadow-key">
+                    <GraduationCap className="w-6 h-6 text-black" />
+                  </div>
+                  <div>
+                    <div className="flex items-center gap-2 mb-1">
+                      <h3 className="font-bold text-black text-lg">Academic / Grad School</h3>
+                      <span className="text-xs font-semibold px-2 py-0.5 rounded-full bg-ref-green border border-black text-black">New</span>
+                    </div>
+                    <p className="text-sm text-gray-700 mb-4">
+                      MS, PhD, MBA? AI asks the right questions for your degree and country.
                     </p>
                     <span className="inline-flex items-center gap-1.5 rounded-xl bg-ref-green text-black border-2 border-black shadow-key px-4 py-2 font-medium text-sm group-hover:shadow-key-md transition-all">
                       Get Started <ArrowRight className="w-4 h-4" />

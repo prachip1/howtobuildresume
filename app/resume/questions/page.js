@@ -40,6 +40,9 @@ export default function QuestionsPage() {
       setCurrentQuestionIndex(index)
       setCurrentQuestion(QUESTION_FLOW.blank[index] || null)
       setAnswer(getAnswerFromData(data, QUESTION_FLOW.blank[index]))
+    } else if (storedSource === 'academic') {
+      // Generate AI questions tailored to degree type + country
+      generateAcademicQuestionsFlow(data)
     } else {
       // Generate smart questions for upload/linkedin
       generateQuestionsForResume(data)
@@ -47,6 +50,36 @@ export default function QuestionsPage() {
     
     setIsLoading(false)
   }, [])
+
+  const generateAcademicQuestionsFlow = async (data) => {
+    setIsGeneratingQuestions(true)
+    try {
+      const response = await fetch('/api/generate-academic-questions', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ academicContext: data.context }),
+      })
+
+      if (!response.ok) throw new Error('Failed to generate academic questions')
+
+      const { questions } = await response.json()
+      setDynamicQuestions(questions)
+      if (questions.length > 0) {
+        setCurrentQuestion(questions[0])
+        setAnswer(getAnswerFromData(data, questions[0]))
+      }
+      window.LyticData?.track('academic_questions_generated', {
+        degreeType: data.context?.degreeType,
+        targetCountry: data.context?.targetCountry,
+        targetProgram: data.context?.targetProgram,
+      })
+    } catch (error) {
+      console.error('Error generating academic questions:', error)
+      router.push('/editmyresume')
+    } finally {
+      setIsGeneratingQuestions(false)
+    }
+  }
 
   const generateQuestionsForResume = async (data) => {
     setIsGeneratingQuestions(true)
@@ -194,7 +227,11 @@ export default function QuestionsPage() {
         <div className="bg-white rounded-2xl p-8 text-center">
           <div className="w-12 h-12 border-2 border-ref-green border-t-transparent rounded-full animate-spin mx-auto" />
           <p className="text-gray-600 mt-4">
-            {isGeneratingQuestions ? 'Analyzing your resume and preparing questions...' : 'Loading...'}
+            {isGeneratingQuestions
+              ? source === 'academic'
+                ? `Building questions for your ${resumeData?.context?.degreeType?.toUpperCase() || 'academic'} application in ${resumeData?.context?.targetProgram || 'your program'}...`
+                : 'Analyzing your resume and preparing questions...'
+              : 'Loading...'}
           </p>
         </div>
       </div>
