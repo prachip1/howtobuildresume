@@ -3,7 +3,7 @@ import { generateAcademicQuestions } from '@/lib/openai'
 
 export async function POST(request) {
   try {
-    const { academicContext } = await request.json()
+    const { academicContext, existingResumeData } = await request.json()
 
     if (!academicContext || !academicContext.degreeType || !academicContext.targetCountry) {
       return NextResponse.json(
@@ -12,7 +12,7 @@ export async function POST(request) {
       )
     }
 
-    const questions = await generateAcademicQuestions(academicContext)
+    const questions = await generateAcademicQuestions(academicContext, existingResumeData)
 
     return NextResponse.json({ questions })
   } catch (error) {

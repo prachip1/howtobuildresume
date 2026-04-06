@@ -57,7 +57,10 @@ export default function QuestionsPage() {
       const response = await fetch('/api/generate-academic-questions', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ academicContext: data.context }),
+        body: JSON.stringify({
+          academicContext: data.context,
+          existingResumeData: data._sourceResume === 'uploaded' ? data : null,
+        }),
       })
 
       if (!response.ok) throw new Error('Failed to generate academic questions')
@@ -229,7 +232,9 @@ export default function QuestionsPage() {
           <p className="text-gray-600 mt-4">
             {isGeneratingQuestions
               ? source === 'academic'
-                ? `Building questions for your ${resumeData?.context?.degreeType?.toUpperCase() || 'academic'} application in ${resumeData?.context?.targetProgram || 'your program'}...`
+                ? resumeData?._sourceResume === 'uploaded'
+                  ? `Analyzing your resume and building academic questions for ${resumeData?.context?.targetProgram || 'your program'} in ${resumeData?.context?.targetCountry || 'your country'}...`
+                  : `Building questions for your ${resumeData?.context?.degreeType?.toUpperCase() || 'academic'} application in ${resumeData?.context?.targetProgram || 'your program'}...`
                 : 'Analyzing your resume and preparing questions...'
               : 'Loading...'}
           </p>
