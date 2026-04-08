@@ -14,6 +14,13 @@ import ResumeTemplate from '@/components/resume/ResumeTemplate'
 
 export const dynamic = 'force-dynamic'
 
+function hasContent(obj) {
+  if (!obj || typeof obj !== 'object') return false
+  return Object.values(obj).some(v =>
+    Array.isArray(v) ? v.length > 0 : (typeof v === 'string' && v.trim() !== '')
+  )
+}
+
 const BACK_MAP = {
   upload: { href: '/upload', label: 'Back to upload' },
   linkedin: { href: '/linkedin', label: 'Back to LinkedIn' },
@@ -378,7 +385,7 @@ function EditPanel({ data, onChange }) {
       </AccordionSection>
 
       {/* Research Experience — shown only if data exists */}
-      {(data.researchExperience || []).length > 0 && (
+      {(data.researchExperience || []).some(hasContent) && (
         <AccordionSection icon={FlaskConical} title="Research Experience" open={openSec === 'research'} onToggle={() => toggle('research')}>
           {(data.researchExperience || []).map((r, i) => (
             <div key={i} className={`space-y-2 ${i > 0 ? 'pt-3 border-t border-gray-100' : ''}`}>
@@ -403,7 +410,7 @@ function EditPanel({ data, onChange }) {
       )}
 
       {/* Publications — shown only if data exists */}
-      {(data.publications || []).length > 0 && (
+      {(data.publications || []).some(hasContent) && (
         <AccordionSection icon={BookOpen} title="Publications" open={openSec === 'publications'} onToggle={() => toggle('publications')}>
           {(data.publications || []).map((p, i) => (
             <div key={i} className={`space-y-2 ${i > 0 ? 'pt-3 border-t border-gray-100' : ''}`}>
@@ -422,7 +429,7 @@ function EditPanel({ data, onChange }) {
       )}
 
       {/* Honors & Awards — shown only if data exists */}
-      {(data.honors || []).length > 0 && (
+      {(data.honors || []).some(hasContent) && (
         <AccordionSection icon={Trophy} title="Honors & Awards" open={openSec === 'honors'} onToggle={() => toggle('honors')}>
           {(data.honors || []).map((h, i) => (
             <div key={i} className={`space-y-2 ${i > 0 ? 'pt-3 border-t border-gray-100' : ''}`}>
@@ -437,7 +444,7 @@ function EditPanel({ data, onChange }) {
       )}
 
       {/* Language Skills — shown only if data exists */}
-      {(data.languageSkills || []).length > 0 && (
+      {(data.languageSkills || []).some(hasContent) && (
         <AccordionSection icon={Languages} title="Language Skills" open={openSec === 'languages'} onToggle={() => toggle('languages')}>
           {(data.languageSkills || []).map((l, i) => (
             <div key={i} className={`space-y-2 ${i > 0 ? 'pt-3 border-t border-gray-100' : ''}`}>
@@ -601,7 +608,7 @@ export default function ResumePreviewPage() {
                 <p className="text-xs font-semibold text-gray-500 uppercase tracking-wide">Live preview</p>
                 <p className="text-xs text-gray-400">Reflects saved changes</p>
               </div>
-              <div className="p-4 overflow-auto max-h-[calc(100vh-200px)]">
+              <div className="p-4">
                 <ResumeTemplate resumeData={resumeData} layout={layout} />
               </div>
             </div>

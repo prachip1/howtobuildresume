@@ -6,11 +6,26 @@ const spacingMap = {
   relaxed: 'mb-8',
 }
 
+// Returns true if an object has at least one non-empty string value
+function hasContent(obj) {
+  if (!obj || typeof obj !== 'object') return false
+  return Object.values(obj).some(v =>
+    Array.isArray(v) ? v.length > 0 : (typeof v === 'string' && v.trim() !== '')
+  )
+}
+
 export default function ResumeTemplate({ resumeData, layout }) {
   if (!resumeData) return null
 
   const { personalInfo, summary, workExperience, education, skills, projects, certifications,
           researchExperience, publications, honors, languageSkills } = resumeData
+
+  // Filter out empty placeholder objects from academic sections
+  const research = (researchExperience || []).filter(hasContent)
+  const pubs = (publications || []).filter(hasContent)
+  const awards = (honors || []).filter(hasContent)
+  const langs = (languageSkills || []).filter(hasContent)
+
   const nameAlign = layout?.nameAlignment === 'center' ? 'text-center' : 'text-left'
   const bodyAlign = layout?.bodyAlignment === 'justify' ? 'text-justify' : 'text-left'
   const sectionSpacing = spacingMap[layout?.spacing] || 'mb-6'
@@ -246,13 +261,13 @@ export default function ResumeTemplate({ resumeData, layout }) {
       )}
 
       {/* Research Experience */}
-      {researchExperience && researchExperience.length > 0 && (
+      {research.length > 0 && (
         <section className={sectionSpacing}>
           <h2 className={`text-gray-900 mb-3 uppercase tracking-wide border-b border-gray-300 pb-1 ${isMinimal ? 'text-lg font-semibold' : 'text-xl font-bold'}`}>
             Research Experience
           </h2>
           <div className="space-y-4">
-            {researchExperience.map((r, index) => (
+            {research.map((r, index) => (
               <div key={index} className="mb-3">
                 <div className="flex justify-between items-start mb-1">
                   <div>
@@ -279,13 +294,13 @@ export default function ResumeTemplate({ resumeData, layout }) {
       )}
 
       {/* Publications */}
-      {publications && publications.length > 0 && (
+      {pubs.length > 0 && (
         <section className={sectionSpacing}>
           <h2 className={`text-gray-900 mb-3 uppercase tracking-wide border-b border-gray-300 pb-1 ${isMinimal ? 'text-lg font-semibold' : 'text-xl font-bold'}`}>
             Publications
           </h2>
           <div className="space-y-3">
-            {publications.map((p, index) => (
+            {pubs.map((p, index) => (
               <div key={index} className="mb-2">
                 {p.title && <p className="text-base font-semibold text-gray-900">&ldquo;{p.title}&rdquo;</p>}
                 {p.authors && <p className="text-sm text-gray-700">{p.authors}</p>}
@@ -302,13 +317,13 @@ export default function ResumeTemplate({ resumeData, layout }) {
       )}
 
       {/* Honors & Awards */}
-      {honors && honors.length > 0 && (
+      {awards.length > 0 && (
         <section className={sectionSpacing}>
           <h2 className={`text-gray-900 mb-3 uppercase tracking-wide border-b border-gray-300 pb-1 ${isMinimal ? 'text-lg font-semibold' : 'text-xl font-bold'}`}>
             Honors &amp; Awards
           </h2>
           <div className="space-y-2">
-            {honors.map((h, index) => (
+            {awards.map((h, index) => (
               <div key={index} className="flex justify-between items-start">
                 <div>
                   {h.name && <p className="text-base font-semibold text-gray-900">{h.name}</p>}
@@ -323,13 +338,13 @@ export default function ResumeTemplate({ resumeData, layout }) {
       )}
 
       {/* Language Skills */}
-      {languageSkills && languageSkills.length > 0 && (
+      {langs.length > 0 && (
         <section className={sectionSpacing}>
           <h2 className={`text-gray-900 mb-3 uppercase tracking-wide border-b border-gray-300 pb-1 ${isMinimal ? 'text-lg font-semibold' : 'text-xl font-bold'}`}>
             Language Skills
           </h2>
           <div className="space-y-1">
-            {languageSkills.map((l, index) => (
+            {langs.map((l, index) => (
               <div key={index} className="flex items-center gap-2 text-sm text-gray-700">
                 {l.language && <span className="font-semibold text-gray-900">{l.language}</span>}
                 {l.proficiency && <span>— {l.proficiency}</span>}
