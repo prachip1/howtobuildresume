@@ -26,9 +26,12 @@ module.exports = {
         'ref-dark-soft': '#2d1f33',
         'ref-yellow': '#EAB308',
         'ref-yellow-soft': '#FDE047',
-        'ref-green': '#22C55E',
-        'ref-green-bright': '#00D26A',
-        'ref-green-dark': '#16A34A',
+        // 'ref-green': '#22C55E',
+        // 'ref-green-bright': '#00D26A',
+        // 'ref-green-dark': '#16A34A',
+        'ref-green': '#f7aef8',
+        'ref-green-bright': '#f7aef8',
+        'ref-green-dark': '#e879f9',
         background: 'hsl(var(--background))',
         foreground: 'hsl(var(--foreground))',
         card: {
@@ -40,7 +43,8 @@ module.exports = {
           foreground: 'hsl(var(--popover-foreground))',
         },
         primary: {
-          DEFAULT: '#22C55E',
+          // DEFAULT: '#22C55E', // old green
+          DEFAULT: '#f7aef8',
           foreground: '#ffffff',
         },
         secondary: {

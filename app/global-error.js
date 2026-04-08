@@ -20,7 +20,8 @@ export default function GlobalError({ error, reset }) {
               style={{
                 padding: '12px 24px',
                 borderRadius: 12,
-                background: '#22C55E',
+                // background: '#22C55E', // old green
+                background: '#f7aef8',
                 color: '#000',
                 border: '2px solid #000',
                 fontWeight: 600,

@@ -95,9 +95,12 @@
     transition: opacity 0.3s ease;
     background: linear-gradient(
       to top left,
-      rgba(34, 197, 94, 0.35),
-      rgba(34, 197, 94, 0.15),
-      rgba(34, 197, 94, 0.08)
+      /* rgba(34, 197, 94, 0.35), old green */
+      /* rgba(34, 197, 94, 0.15), old green */
+      /* rgba(34, 197, 94, 0.08)  old green */
+      rgba(247, 174, 248, 0.35),
+      rgba(247, 174, 248, 0.15),
+      rgba(247, 174, 248, 0.08)
     );
     overflow: hidden;
   }

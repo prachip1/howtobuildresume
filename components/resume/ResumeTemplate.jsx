@@ -9,7 +9,8 @@ const spacingMap = {
 export default function ResumeTemplate({ resumeData, layout }) {
   if (!resumeData) return null
 
-  const { personalInfo, summary, workExperience, education, skills, projects, certifications } = resumeData
+  const { personalInfo, summary, workExperience, education, skills, projects, certifications,
+          researchExperience, publications, honors, languageSkills } = resumeData
   const nameAlign = layout?.nameAlignment === 'center' ? 'text-center' : 'text-left'
   const bodyAlign = layout?.bodyAlignment === 'justify' ? 'text-justify' : 'text-left'
   const sectionSpacing = spacingMap[layout?.spacing] || 'mb-6'
@@ -237,6 +238,105 @@ export default function ResumeTemplate({ resumeData, layout }) {
                 </div>
                 {cert.date && (
                   <span className="text-sm text-gray-600">{formatDate(cert.date)}</span>
+                )}
+              </div>
+            ))}
+          </div>
+        </section>
+      )}
+
+      {/* Research Experience */}
+      {researchExperience && researchExperience.length > 0 && (
+        <section className={sectionSpacing}>
+          <h2 className={`text-gray-900 mb-3 uppercase tracking-wide border-b border-gray-300 pb-1 ${isMinimal ? 'text-lg font-semibold' : 'text-xl font-bold'}`}>
+            Research Experience
+          </h2>
+          <div className="space-y-4">
+            {researchExperience.map((r, index) => (
+              <div key={index} className="mb-3">
+                <div className="flex justify-between items-start mb-1">
+                  <div>
+                    {r.role && <h3 className="text-lg font-semibold text-gray-900">{r.role}</h3>}
+                    {r.institution && <p className="text-base font-medium text-gray-700">{r.institution}</p>}
+                    {r.supervisor && <p className="text-sm text-gray-600">Supervisor: {r.supervisor}</p>}
+                  </div>
+                  <div className="text-right text-sm text-gray-600 shrink-0">
+                    {r.startDate && <span>{formatDate(r.startDate)}</span>}
+                    {r.startDate && r.endDate && <span> – </span>}
+                    {r.endDate && <span>{r.endDate === 'Current' ? 'Present' : formatDate(r.endDate)}</span>}
+                  </div>
+                </div>
+                {r.description && <p className="text-gray-700 leading-relaxed mb-1">{r.description}</p>}
+                {r.achievements && r.achievements.length > 0 && (
+                  <ul className="list-disc list-inside text-gray-700 space-y-1 ml-4">
+                    {r.achievements.map((a, i) => <li key={i}>{a}</li>)}
+                  </ul>
+                )}
+              </div>
+            ))}
+          </div>
+        </section>
+      )}
+
+      {/* Publications */}
+      {publications && publications.length > 0 && (
+        <section className={sectionSpacing}>
+          <h2 className={`text-gray-900 mb-3 uppercase tracking-wide border-b border-gray-300 pb-1 ${isMinimal ? 'text-lg font-semibold' : 'text-xl font-bold'}`}>
+            Publications
+          </h2>
+          <div className="space-y-3">
+            {publications.map((p, index) => (
+              <div key={index} className="mb-2">
+                {p.title && <p className="text-base font-semibold text-gray-900">"{p.title}"</p>}
+                {p.authors && <p className="text-sm text-gray-700">{p.authors}</p>}
+                <div className="flex flex-wrap gap-x-3 text-sm text-gray-600">
+                  {p.venue && <span>{p.venue}</span>}
+                  {p.year && <span>{p.year}</span>}
+                  {p.status && <span className="italic">({p.status})</span>}
+                  {p.doi && <span>DOI: {p.doi}</span>}
+                </div>
+              </div>
+            ))}
+          </div>
+        </section>
+      )}
+
+      {/* Honors & Awards */}
+      {honors && honors.length > 0 && (
+        <section className={sectionSpacing}>
+          <h2 className={`text-gray-900 mb-3 uppercase tracking-wide border-b border-gray-300 pb-1 ${isMinimal ? 'text-lg font-semibold' : 'text-xl font-bold'}`}>
+            Honors &amp; Awards
+          </h2>
+          <div className="space-y-2">
+            {honors.map((h, index) => (
+              <div key={index} className="flex justify-between items-start">
+                <div>
+                  {h.name && <p className="text-base font-semibold text-gray-900">{h.name}</p>}
+                  {h.institution && <p className="text-sm text-gray-700">{h.institution}</p>}
+                  {h.description && <p className="text-sm text-gray-600">{h.description}</p>}
+                </div>
+                {h.year && <span className="text-sm text-gray-600 shrink-0">{h.year}</span>}
+              </div>
+            ))}
+          </div>
+        </section>
+      )}
+
+      {/* Language Skills */}
+      {languageSkills && languageSkills.length > 0 && (
+        <section className={sectionSpacing}>
+          <h2 className={`text-gray-900 mb-3 uppercase tracking-wide border-b border-gray-300 pb-1 ${isMinimal ? 'text-lg font-semibold' : 'text-xl font-bold'}`}>
+            Language Skills
+          </h2>
+          <div className="space-y-1">
+            {languageSkills.map((l, index) => (
+              <div key={index} className="flex items-center gap-2 text-sm text-gray-700">
+                {l.language && <span className="font-semibold text-gray-900">{l.language}</span>}
+                {l.proficiency && <span>— {l.proficiency}</span>}
+                {(l.certification || l.score) && (
+                  <span className="text-gray-500">
+                    {l.certification && `(${l.certification}`}{l.score && ` ${l.score}`}{l.certification && ')'}
+                  </span>
                 )}
               </div>
             ))}
