@@ -382,6 +382,11 @@ function SamplePanel({ question, context, resumeData, onUseSample }) {
     // Skip for select / simple text questions — AI isn't useful there
     if (question.type === 'select' || question.type === 'month') return
 
+    // Skip for simple data fields where a generated paragraph makes no sense
+    const SIMPLE_FIELDS = ['gpa', 'cgpa', 'score', 'grade', 'year', 'startDate', 'endDate',
+      'phone', 'email', 'location', 'linkedin', 'github', 'portfolio', 'doi', 'link']
+    if (SIMPLE_FIELDS.includes(question.field)) return
+
     // Check cache
     if (cacheRef.current.has(question.id)) {
       setAiSample(cacheRef.current.get(question.id))
