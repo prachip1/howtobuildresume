@@ -287,7 +287,7 @@ export default function ResumeTemplate({ resumeData, layout }) {
           <div className="space-y-3">
             {publications.map((p, index) => (
               <div key={index} className="mb-2">
-                {p.title && <p className="text-base font-semibold text-gray-900">"{p.title}"</p>}
+                {p.title && <p className="text-base font-semibold text-gray-900">&ldquo;{p.title}&rdquo;</p>}
                 {p.authors && <p className="text-sm text-gray-700">{p.authors}</p>}
                 <div className="flex flex-wrap gap-x-3 text-sm text-gray-600">
                   {p.venue && <span>{p.venue}</span>}
