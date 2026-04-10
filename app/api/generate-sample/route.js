@@ -11,9 +11,14 @@ function buildResumeSnapshot(resumeData, question) {
   const section = question?.section || ''
   const snap = {}
 
-  // Always include personal info and summary for context
+  // Always include personal info
   if (resumeData.personalInfo) snap.personalInfo = resumeData.personalInfo
-  if (resumeData.summary) snap.summary = resumeData.summary
+
+  // Include summary for context — but NOT for specific structured fields where it causes confusion
+  const fieldLower = (question?.field || '').toLowerCase()
+  const SKIP_SUMMARY_FIELDS = ['thesis', 'capstone', 'dissertation', 'thesistitle', 'capstonetitle']
+  const isStructuredField = SKIP_SUMMARY_FIELDS.some(f => fieldLower.includes(f))
+  if (resumeData.summary && !isStructuredField) snap.summary = resumeData.summary
 
   // Add section-specific data
   if (section === 'workExperience' || section === 'summary') {

@@ -6,7 +6,7 @@ import { ArrowRight, ArrowLeft, Lightbulb, CheckCircle2, Copy, Check, Sparkles, 
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Textarea } from '@/components/ui/textarea'
-import { QUESTION_FLOW, getNextQuestion, getProgress, updateResumeData, getHintForQuestion } from '@/lib/questions'
+import { QUESTION_FLOW, getNextQuestion, getProgress, updateResumeData, getHintForQuestion, makeLoopBlock } from '@/lib/questions'
 
 // ─── Sample content map ──────────────────────────────────────────────────────
 
@@ -91,6 +91,12 @@ Built a collaborative filtering model achieving 82% prediction accuracy on 50K+ 
 Deployed as a REST microservice handling 1,000 requests/minute with 99.9% uptime.
 GitHub: github.com/yourname/rec-engine | Live: rec-engine.vercel.app`,
     tip: 'Include: project name, tech stack, what you built, and a measurable outcome. Add a GitHub/live link — recruiters and professors click them. Quantify: users, accuracy, requests/sec, or time saved.',
+  },
+  certifications: {
+    sample: `AWS Certified Solutions Architect — Associate | Amazon Web Services | Jun 2023
+Google Analytics Certification | Google | Jan 2024
+Project Management Professional (PMP) | PMI | Mar 2022`,
+    tip: 'List each certification on its own line: Name | Issuer | Date. Include the full official name — recruiters and ATS systems search for exact certificate names.',
   },
   education: {
     tip: 'For the degree field, spell out the full degree name (e.g. "Bachelor of Science in Computer Science"). Include GPA only if it\'s 3.5+ on a 4.0 scale, or equivalent in your country\'s grading system.',
@@ -241,11 +247,15 @@ function getSampleForQuestion(question, context = {}, resumeData = null) {
     const roleKey = jobRole && ROLE_SKILLS[jobRole] ? jobRole : 'default'
     return { sample: ROLE_SKILLS[roleKey], tip: SECTION_SAMPLES.skills.tip }
   }
+  // Gate/loop confirm questions — no sample panel
+  if (question.section === 'loop' || question.section === 'gate') return null
+
   if (question.section === 'researchExperience') return SECTION_SAMPLES.researchExperience
   if (question.section === 'publications') return SECTION_SAMPLES.publications
   if (question.section === 'honors') return SECTION_SAMPLES.honors
   if (question.section === 'languageSkills') return SECTION_SAMPLES.languageSkills
   if (question.section === 'projects' && question.type === 'textarea') return SECTION_SAMPLES.projects
+  if (question.section === 'certifications' && question.field === 'name') return SECTION_SAMPLES.certifications
   if (question.section === 'education') {
     const field = (question.field || '').toLowerCase()
     // Thesis / capstone — specific sample
@@ -274,7 +284,7 @@ function getSampleForQuestion(question, context = {}, resumeData = null) {
 
 function QuestionContent({
   currentQuestion, hintText, answer, setAnswer,
-  source, currentQuestionIndex, handlePrevious, handleSkip, handleNext,
+  source, currentQuestionIndex, handlePrevious, handleSkip, handleNext, onConfirm,
 }) {
   return (
     <div className="max-w-2xl">
@@ -287,7 +297,32 @@ function QuestionContent({
       </p>
 
       <div className="mb-10">
-        {currentQuestion.type === 'textarea' ? (
+        {currentQuestion.type === 'confirm' ? (
+          <div className="flex gap-3">
+            <button
+              type="button"
+              onClick={() => { setAnswer('yes'); onConfirm?.('yes') }}
+              className={`flex-1 h-14 rounded-2xl border-2 text-base font-semibold transition-all ${
+                answer === 'yes'
+                  ? 'bg-black text-white border-black'
+                  : 'bg-white text-black border-gray-200 hover:border-gray-400'
+              }`}
+            >
+              Yes
+            </button>
+            <button
+              type="button"
+              onClick={() => { setAnswer('no'); onConfirm?.('no') }}
+              className={`flex-1 h-14 rounded-2xl border-2 text-base font-semibold transition-all ${
+                answer === 'no'
+                  ? 'bg-black text-white border-black'
+                  : 'bg-white text-black border-gray-200 hover:border-gray-400'
+              }`}
+            >
+              No, continue
+            </button>
+          </div>
+        ) : currentQuestion.type === 'textarea' ? (
           <Textarea
             value={answer}
             onChange={(e) => setAnswer(e.target.value)}
@@ -333,13 +368,13 @@ function QuestionContent({
           type="button"
           variant="register"
           onClick={handlePrevious}
-          disabled={source === 'blank' && currentQuestionIndex === 0}
+          disabled={currentQuestionIndex === 0}
           className="inline-flex items-center gap-2"
         >
           <ArrowLeft className="h-4 w-4" />
           Back
         </Button>
-        {!currentQuestion.required && (
+        {!currentQuestion.required && currentQuestion.type !== 'confirm' && (
           <Button type="button" variant="register" onClick={handleSkip}>
             Skip
           </Button>
@@ -348,10 +383,13 @@ function QuestionContent({
           type="button"
           variant="cta"
           onClick={handleNext}
-          disabled={currentQuestion.required && !answer.trim()}
+          disabled={
+            (currentQuestion.required && !answer.trim()) ||
+            (currentQuestion.type === 'confirm' && !answer)
+          }
           className="inline-flex items-center gap-2"
         >
-          Next
+          {currentQuestion.type === 'confirm' ? 'Continue' : 'Next'}
           <ArrowRight className="h-4 w-4" />
         </Button>
       </div>
@@ -382,10 +420,19 @@ function SamplePanel({ question, context, resumeData, onUseSample }) {
     // Skip for select / simple text questions — AI isn't useful there
     if (question.type === 'select' || question.type === 'month') return
 
+    // Skip confirm questions entirely
+    if (question.type === 'confirm') return
+
     // Skip for simple data fields where a generated paragraph makes no sense
+    // Also skip thesis/capstone title — AI hallucinates or echoes the summary when no thesis exists
     const SIMPLE_FIELDS = ['gpa', 'cgpa', 'score', 'grade', 'year', 'startDate', 'endDate',
-      'phone', 'email', 'location', 'linkedin', 'github', 'portfolio', 'doi', 'link']
-    if (SIMPLE_FIELDS.includes(question.field)) return
+      'phone', 'email', 'location', 'linkedin', 'github', 'portfolio', 'doi', 'link',
+      'thesisTitle', 'capstoneTitle', 'dissertationTitle',
+      // Certifications/projects structured fields — static samples are better
+      'issuer', 'date', 'techStack', 'link']
+    const fieldLower = (question.field || '').toLowerCase()
+    const isThesisField = ['thesis', 'capstone', 'dissertation'].some(f => fieldLower.includes(f))
+    if (SIMPLE_FIELDS.includes(question.field) || isThesisField) return
 
     // Check cache
     if (cacheRef.current.has(question.id)) {
@@ -532,6 +579,7 @@ export default function QuestionsPage() {
   const [leftPct, setLeftPct] = useState(62)
   const [isDragging, setIsDragging] = useState(false)
   const containerRef = useRef(null)
+  const loopCounters = useRef({})
   const router = useRouter()
 
   const startDrag = useCallback((e) => {
@@ -571,10 +619,16 @@ export default function QuestionsPage() {
     setSource(storedSource)
 
     if (storedSource === 'blank') {
-      const index = storedIndex ? parseInt(storedIndex) : 0
-      setCurrentQuestionIndex(index)
-      setCurrentQuestion(QUESTION_FLOW.blank[index] || null)
-      setAnswer(getAnswerFromData(data, QUESTION_FLOW.blank[index]))
+      const questions = [...QUESTION_FLOW.blank]
+      setDynamicQuestions(questions)
+      // Restore position by question ID (robust to list changes)
+      const storedId = storedIndex // reuse storage key, now stores question ID
+      const startIdx = storedId
+        ? Math.max(0, questions.findIndex(q => q.id === storedId))
+        : 0
+      setCurrentQuestionIndex(startIdx)
+      setCurrentQuestion(questions[startIdx] || null)
+      setAnswer(getAnswerFromData(data, questions[startIdx]))
     } else if (storedSource === 'academic') {
       generateAcademicQuestionsFlow(data)
     } else {
@@ -641,6 +695,8 @@ export default function QuestionsPage() {
 
   const getAnswerFromData = (data, question) => {
     if (!question || !data) return ''
+    // Confirm questions (loop/gate) always start blank
+    if (question.section === 'loop' || question.section === 'gate') return ''
     if (question.section === 'context') return data.context?.[question.field] ?? ''
     if (question.section === 'personalInfo') return data.personalInfo?.[question.field] || ''
     if (question.section === 'summary') return data.summary || ''
@@ -658,62 +714,109 @@ export default function QuestionsPage() {
     if (question.section === 'skills') {
       return Array.isArray(data.skills) ? data.skills.join(', ') : ''
     }
+    // Generic: certifications, projects, and any other array sections
+    if (question.section && Array.isArray(data[question.section])) {
+      const lastEntry = data[question.section][data[question.section].length - 1]
+      if (!lastEntry || !question.field) return ''
+      const val = lastEntry[question.field]
+      if (Array.isArray(val)) return val.join(question.splitBy === ',' ? ', ' : '\n')
+      return val || ''
+    }
     return ''
   }
 
-  const handleNext = () => {
+  // answerOverride lets confirm buttons advance without waiting for state to settle
+  const handleNext = (answerOverride) => {
     if (!currentQuestion) return
-    const updated = updateResumeData(resumeData, currentQuestion, answer)
+    const currentAnswer = answerOverride !== undefined ? answerOverride : answer
+    const updated = updateResumeData(resumeData, currentQuestion, currentAnswer)
     setResumeData(updated)
     sessionStorage.setItem('resumeData', JSON.stringify(updated))
 
-    if (source === 'blank') {
-      const nextIndex = currentQuestionIndex + 1
-      if (nextIndex >= QUESTION_FLOW.blank.length) {
-        router.push('/resume/preview')
+    const questions = dynamicQuestions
+    const currentIndex = questions.findIndex(q => q.id === currentQuestion.id)
+
+    // ── Gate question: skip entire gated section on "no" ──────────────────────
+    if (currentQuestion.section === 'gate' && currentQuestion.gateSection) {
+      if (currentAnswer !== 'yes') {
+        let nextIdx = currentIndex + 1
+        while (
+          nextIdx < questions.length &&
+          (questions[nextIdx].section === currentQuestion.gateSection ||
+           questions[nextIdx].loopGroup === currentQuestion.gateSection)
+        ) nextIdx++
+        navigateToQuestion(questions[nextIdx] || null, updated)
         return
       }
-      setCurrentQuestionIndex(nextIndex)
-      sessionStorage.setItem('currentStep', nextIndex.toString())
-      const nextQuestion = QUESTION_FLOW.blank[nextIndex]
-      setCurrentQuestion(nextQuestion)
-      setAnswer(getAnswerFromData(updated, nextQuestion))
-    } else {
-      const currentIndex = dynamicQuestions.findIndex(q => q.id === currentQuestion.id)
-      if (currentIndex >= dynamicQuestions.length - 1) {
-        router.push('/resume/preview')
-        return
-      }
-      const nextQuestion = dynamicQuestions[currentIndex + 1]
-      setCurrentQuestion(nextQuestion)
-      setAnswer(getAnswerFromData(updated, nextQuestion))
+      // "yes" → fall through to normal next
     }
+
+    // ── Loop question: insert more questions on "yes" ─────────────────────────
+    if (currentQuestion.section === 'loop' && currentQuestion.loopGroup) {
+      if (currentAnswer === 'yes') {
+        const group = currentQuestion.loopGroup
+        const counter = (loopCounters.current[group] || 0) + 1
+        loopCounters.current[group] = counter
+
+        // Push a new empty entry into that section
+        const newUpdated = { ...updated }
+        if (!newUpdated[group]) newUpdated[group] = []
+        newUpdated[group] = [...newUpdated[group], {}]
+        setResumeData(newUpdated)
+        sessionStorage.setItem('resumeData', JSON.stringify(newUpdated))
+
+        // Insert new question block right after the current confirm question
+        const block = makeLoopBlock(group, counter)
+        const newQuestions = [
+          ...questions.slice(0, currentIndex + 1),
+          ...block,
+          ...questions.slice(currentIndex + 1),
+        ]
+        setDynamicQuestions(newQuestions)
+        const firstNew = block[0]
+        setCurrentQuestion(firstNew)
+        setAnswer(getAnswerFromData(newUpdated, firstNew))
+        if (source === 'blank') sessionStorage.setItem('currentStep', firstNew.id)
+        return
+      }
+      // "no" → fall through to normal next
+    }
+
+    // ── Normal navigation ─────────────────────────────────────────────────────
+    if (currentIndex >= questions.length - 1) {
+      router.push('/resume/preview')
+      return
+    }
+    const nextQuestion = questions[currentIndex + 1]
+    navigateToQuestion(nextQuestion, updated)
+  }
+
+  const navigateToQuestion = (question, data) => {
+    if (!question) {
+      router.push('/resume/preview')
+      return
+    }
+    const idx = dynamicQuestions.findIndex(q => q.id === question.id)
+    setCurrentQuestion(question)
+    setCurrentQuestionIndex(Math.max(0, idx))
+    setAnswer(getAnswerFromData(data || resumeData, question))
+    if (source === 'blank') sessionStorage.setItem('currentStep', question.id)
   }
 
   const handlePrevious = () => {
-    if (source === 'blank') {
-      if (currentQuestionIndex === 0) return
-      const prevIndex = currentQuestionIndex - 1
-      setCurrentQuestionIndex(prevIndex)
-      sessionStorage.setItem('currentStep', prevIndex.toString())
-      const prevQuestion = QUESTION_FLOW.blank[prevIndex]
-      setCurrentQuestion(prevQuestion)
-      setAnswer(getAnswerFromData(resumeData, prevQuestion))
-    } else {
-      const currentIndex = dynamicQuestions.findIndex(q => q.id === currentQuestion.id)
-      if (currentIndex === 0) return
-      const prevQuestion = dynamicQuestions[currentIndex - 1]
-      setCurrentQuestion(prevQuestion)
-      setAnswer(getAnswerFromData(resumeData, prevQuestion))
-    }
+    const questions = dynamicQuestions
+    const currentIndex = questions.findIndex(q => q.id === currentQuestion?.id)
+    if (currentIndex <= 0) return
+    const prevQuestion = questions[currentIndex - 1]
+    setCurrentQuestion(prevQuestion)
+    setCurrentQuestionIndex(currentIndex - 1)
+    setAnswer(getAnswerFromData(resumeData, prevQuestion))
+    if (source === 'blank') sessionStorage.setItem('currentStep', prevQuestion.id)
   }
 
-  const handleSkip = () => { handleNext() }
+  const handleSkip = () => { handleNext('') }
 
   const getProgressValue = () => {
-    if (source === 'blank') {
-      return getProgress(currentQuestion?.id, source, QUESTION_FLOW.blank.length)
-    }
     const currentIndex = dynamicQuestions.findIndex(q => q.id === currentQuestion?.id)
     return dynamicQuestions.length > 0
       ? Math.round(((currentIndex + 1) / dynamicQuestions.length) * 100)
@@ -721,7 +824,6 @@ export default function QuestionsPage() {
   }
 
   const getQuestionNumber = () => {
-    if (source === 'blank') return `${currentQuestionIndex + 1} of ${QUESTION_FLOW.blank.length}`
     const currentIndex = dynamicQuestions.findIndex(q => q.id === currentQuestion?.id)
     return `${currentIndex + 1} of ${dynamicQuestions.length}`
   }
@@ -799,6 +901,7 @@ export default function QuestionsPage() {
                     handlePrevious={handlePrevious}
                     handleSkip={handleSkip}
                     handleNext={handleNext}
+                    onConfirm={handleNext}
                   />
                 </div>
 
@@ -842,6 +945,7 @@ export default function QuestionsPage() {
                   handlePrevious={handlePrevious}
                   handleSkip={handleSkip}
                   handleNext={handleNext}
+                  onConfirm={handleNext}
                 />
                 <div className="mt-8">
                   <SamplePanel
@@ -865,6 +969,7 @@ export default function QuestionsPage() {
               handlePrevious={handlePrevious}
               handleSkip={handleSkip}
               handleNext={handleNext}
+              onConfirm={handleNext}
             />
           )}
 
