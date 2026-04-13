@@ -1,0 +1,17 @@
+name: Keep Supabase Alive
+
+on:
+  schedule:
+    # This runs at 00:00 every Monday, Wednesday, and Friday
+    - cron: '0 0 * * 1,3,5'
+  workflow_dispatch: # Allows you to run it manually for testing
+
+jobs:
+  ping_supabase:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Call Edge Function
+        run: |
+          curl -i -X POST https://jqhtfxleijrjfcxdwrlx.supabase.co/functions/v1/quick-processor \
+          -H "Content-Type: application/json" \
+          -d '{"name": "GitHubAction"}'
