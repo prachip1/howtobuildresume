@@ -472,6 +472,7 @@ export default function ResumePreviewPage() {
   const [isExporting, setIsExporting] = useState(false)
   const [exportError, setExportError] = useState('')
   const [hasUnsaved, setHasUnsaved] = useState(false)
+  const [downloadSucceeded, setDownloadSucceeded] = useState(false)
 
   useEffect(() => {
     const storedData = sessionStorage.getItem('resumeData')
@@ -504,6 +505,7 @@ export default function ResumePreviewPage() {
     try {
       const { exportToPDF } = await import('@/lib/pdf-export')
       await exportToPDF(resumeData)
+      setDownloadSucceeded(true)
     } catch (err) {
       console.error('PDF export error:', err)
       setExportError('Could not generate PDF. Try Ctrl+P / Cmd+P as a fallback.')
@@ -619,6 +621,30 @@ export default function ResumePreviewPage() {
             <div className="flex items-start gap-2 p-4 mt-4 bg-red-50 border border-red-200 rounded-xl text-red-700 text-sm">
               <AlertTriangle className="w-4 h-4 shrink-0 mt-0.5" />
               {exportError}
+            </div>
+          )}
+
+          {/* Post-download cross-sell to MOR */}
+          {downloadSucceeded && !exportError && (
+            <div className="mt-6 bg-white border-2 border-black rounded-2xl p-6 shadow-key">
+              <div className="flex flex-col sm:flex-row sm:items-center gap-4">
+                <div className="flex-1">
+                  <p className="text-xs font-semibold uppercase tracking-widest text-gray-500 mb-1">Resume downloaded ✓</p>
+                  <h3 className="text-lg font-bold text-black mb-1">Now beat the ATS for specific jobs</h3>
+                  <p className="text-sm text-gray-600">
+                    Upload this resume to MOR and tailor it to any job description.
+                    Get an ATS score and missing-keyword analysis in seconds.
+                  </p>
+                </div>
+                <a
+                  href="https://www.makersofresume.com/jdupload?from=htbr"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center justify-center gap-2 px-5 py-3 bg-black text-white rounded-xl font-semibold hover:bg-gray-800 transition-colors shrink-0 whitespace-nowrap"
+                >
+                  Optimize for jobs →
+                </a>
+              </div>
             </div>
           )}
 
