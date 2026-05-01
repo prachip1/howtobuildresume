@@ -15,11 +15,12 @@ const siteUrl =
 export const metadata = {
   metadataBase: new URL(siteUrl),
   title: {
-    default: 'Build a Resume — Free | howtobuildresume',
+    default: 'How to Build a Resume — Free ATS Resume Builder | howtobuildresume',
     template: '%s | howtobuildresume',
   },
   description:
-    'Upload your file, paste LinkedIn, or start from scratch. Get an ATS-ready resume and export to PDF. Free. No credit card.',
+    'How to build a resume in minutes. Free ATS resume builder — upload your file, paste LinkedIn, or start from scratch. Export to PDF. No signup needed to download.',
+  applicationName: 'howtobuildresume',
   keywords: [
     'how to build resume',
     'how to build a resume',
@@ -41,20 +42,22 @@ export const metadata = {
   ],
   authors: [{ name: 'howtobuildresume' }],
   creator: 'howtobuildresume',
+  publisher: 'howtobuildresume',
   openGraph: {
     type: 'website',
     locale: 'en_US',
     url: siteUrl,
     siteName: 'howtobuildresume',
-    title: 'Build a Resume — Free | howtobuildresume',
+    title: 'How to Build a Resume — Free ATS Resume Builder',
     description:
-      'Upload your file, paste LinkedIn, or start from scratch. ATS-ready resume + PDF export. Free.',
-    images: [{ url: '/howtobuildresume.png', width: 1200, height: 630, alt: 'howtobuildresume - How to Build a Resume' }],
+      'How to build a resume in minutes. Upload, paste LinkedIn, or start from scratch. ATS-ready PDF export. Free.',
+    images: [{ url: '/howtobuildresume.png', width: 500, height: 500, alt: 'howtobuildresume - How to Build a Resume' }],
   },
   twitter: {
-    card: 'summary_large_image',
-    title: 'Build a Resume — Free | howtobuildresume',
+    card: 'summary',
+    title: 'How to Build a Resume — Free ATS Resume Builder',
     description: 'Upload, paste LinkedIn, or start from scratch. ATS-ready resume + PDF. Free.',
+    images: ['/howtobuildresume.png'],
   },
   robots: {
     index: true,
@@ -70,10 +73,45 @@ export const metadata = {
   },
 }
 
+const organizationLd = {
+  '@context': 'https://schema.org',
+  '@type': 'Organization',
+  '@id': `${siteUrl}/#organization`,
+  name: 'howtobuildresume',
+  alternateName: ['How to Build Resume', 'how to build resume', 'How to Build a Resume'],
+  url: siteUrl,
+  logo: {
+    '@type': 'ImageObject',
+    url: `${siteUrl}/howtobuildresume.png`,
+    width: 500,
+    height: 500,
+  },
+}
+
+const websiteLd = {
+  '@context': 'https://schema.org',
+  '@type': 'WebSite',
+  '@id': `${siteUrl}/#website`,
+  name: 'howtobuildresume',
+  alternateName: ['How to Build Resume', 'how to build resume', 'How to Build a Resume'],
+  url: siteUrl,
+  description: 'How to build a resume in minutes. Free ATS resume builder.',
+  publisher: { '@id': `${siteUrl}/#organization` },
+  inLanguage: 'en-US',
+}
+
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body className={inter.className}>
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationLd) }}
+        />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteLd) }}
+        />
         <div className="flex min-h-screen flex-col">
           <Navbar />
           <main className="min-h-[calc(100vh-4rem)] flex-1 bg-[#f0f0f0]">{children}</main>

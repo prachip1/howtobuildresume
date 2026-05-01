@@ -79,10 +79,10 @@ export default function Home({ searchParams }) {
             ) : (
               <>
                 <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-black mb-6 leading-tight">
-                  Build a Resume — Free
+                  How to Build a Resume — Free, ATS-Ready
                 </h1>
                 <p className="text-lg text-gray-600 max-w-2xl mx-auto mb-8">
-                  Upload your file, paste your LinkedIn, or start from scratch. Get an ATS-ready resume and export to PDF. No credit card.
+                  Learn how to build a resume in minutes. Upload your file, paste your LinkedIn, or start from scratch. Get an ATS-ready resume and export to PDF. Free, no credit card.
                 </p>
                 {/* CTA - Email + Register like reference */}
                 <div className="flex flex-col sm:flex-row gap-3 justify-center items-center max-w-md mx-auto">
